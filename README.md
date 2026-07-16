@@ -2,7 +2,7 @@
 
 Production portfolio for **Sinan Anwar Alekar**, a Computer Engineering Student, Full-Stack Developer, and AI & Cybersecurity Enthusiast.
 
-**Live site:** [sinan-portfolio-khaki.vercel.app](https://sinan-portfolio-khaki.vercel.app)
+**Live site:** [sinan-alekar.vercel.app](https://sinan-alekar.vercel.app)
 
 ## Highlights
 
