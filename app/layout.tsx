@@ -21,8 +21,8 @@ export const metadata: Metadata = {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",
   },
-  openGraph: { title: "Sinan Anwar Alekar", description: "Full-Stack Developer · AI & Cybersecurity Enthusiast", images: ["/og-portfolio.png"], type: "website" },
-  twitter: { card: "summary_large_image", images: ["/og-portfolio.png"] },
+  openGraph: { title: "Sinan Anwar Alekar", description: "Full-Stack Developer · AI & Cybersecurity Enthusiast", images: ["https://sinan-alekar-analystx9.vercel.app/og-portfolio.png"], type: "website" },
+  twitter: { card: "summary_large_image", images: ["https://sinan-alekar-analystx9.vercel.app/og-portfolio.png"] },
 };
 
 export default function RootLayout({
