@@ -10,7 +10,11 @@ export async function generateMetadata({params}:{params:Promise<{slug:string}>})
   const {slug}=await params;
   const p=projects.find(x=>x.slug===slug);
   if(!p)return {title:"Project"};
-  const image=slug==="sentinental-ix"?"/og-sentinental-ix.png":slug==="ix-x"?"/og-ix-x.png":"/og.png";
+  const image=slug==="sentinental-ix"
+    ?"https://sinan-alekar-analystx9.vercel.app/og-sentinental-ix.png"
+    :slug==="ix-x"
+      ?"https://sinan-alekar-analystx9.vercel.app/og-ix-x.png"
+      :"https://sinan-alekar-analystx9.vercel.app/og-portfolio.png";
   return {
     title:`${p.name} Case Study`,
     description:p.summary,
