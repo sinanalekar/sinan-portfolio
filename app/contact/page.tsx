@@ -1,0 +1,5 @@
+import type { Metadata } from "next";
+import { links } from "../data";
+import ContactForm from "./ContactForm";
+export const metadata:Metadata={title:"Contact",description:"Contact Sinan Alekar about software opportunities, projects and technical collaboration."};
+export default function Contact(){return <><section className="page-hero"><div className="shell"><span className="eyebrow">Contact</span><h1>Let’s start a thoughtful conversation.</h1><p>I’m open to internships, junior software opportunities, project collaboration and conversations about full-stack development, AI and defensive cybersecurity.</p></div></section><section className="section"><div className="shell contact-grid"><div><h2>Direct contact</h2><p className="lead">Prefer email or a professional network? Use any of these verified contact links.</p><div className="contact-list"><a href={links.email}>sinanalekar9192@gmail.com ↗</a><a href={links.phone}>+91 9175196309 ↗</a><a href={links.github}>github.com/sinanalekar ↗</a><a href={links.linkedin}>linkedin.com/in/sinan-alekar-90171825a ↗</a></div></div><ContactForm/></div></section></>}
