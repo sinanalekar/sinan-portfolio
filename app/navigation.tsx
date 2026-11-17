@@ -133,7 +133,6 @@ export default function Navigation() {
           <Link
             className="button primary nav-contact"
             href="/contact"
-            aria-label="Contact"
             aria-current={path === "/contact" ? "page" : undefined}
           >
             <span className="nav-contact-desktop">
