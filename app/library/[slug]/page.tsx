@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { entries } from "../../data";
+import { entries, relatedNotes } from "../../data";
 import ProjectPreview from "../../project-preview";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -17,6 +17,9 @@ export default async function LibraryEntry({ params }: Props) {
   const { slug } = await params;
   const entry = entries.find((item) => item.slug === slug);
   if (!entry) notFound();
+  const related = entries.filter((item) =>
+    relatedNotes[slug]?.includes(item.slug),
+  );
   return (
     <article className="reading">
       <Link className="back" href="/library">
@@ -53,6 +56,17 @@ export default async function LibraryEntry({ params }: Props) {
           <p>{copy}</p>
         </section>
       ))}
+      {related.length > 0 && (
+        <aside className="related-notes" aria-label="Related methods">
+          <h2>Related notes</h2>
+          {related.map((note) => (
+            <Link key={note.slug} href={`/library/${note.slug}`}>
+              <span>{note.title}</span>
+              <span aria-hidden="true">↗</span>
+            </Link>
+          ))}
+        </aside>
+      )}
       <div className="source-list">
         <h2 className="micro">FURTHER READING</h2>
         <ul>

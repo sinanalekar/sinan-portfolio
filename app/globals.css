@@ -3522,3 +3522,24 @@ html[data-theme="light"] .hero-orb {
     margin-top: 20px;
   }
 }
+.related-notes {
+  border-top: 1px solid var(--line);
+  padding-top: 25px;
+  margin-top: 20px;
+}
+.related-notes h2 {
+  font-size: 21px;
+  margin: 0 0 17px;
+}
+.related-notes > a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 15px 0;
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+}
+.related-notes > a:hover {
+  color: var(--accent);
+}

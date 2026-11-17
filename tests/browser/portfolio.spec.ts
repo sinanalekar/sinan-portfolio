@@ -429,3 +429,24 @@ test("removed platform and related triage page are not published", async ({
       );
   }
 });
+
+test("private project overviews connect to their related methods notes", async ({
+  page,
+}) => {
+  for (const [project, note, title] of [
+    ["seek", "state-comparisons", "Comparing security states"],
+    ["veritas", "evidence-gates", "Challenge before conclusion"],
+    ["hydra", "artifact-comparisons", "A difference is a starting point"],
+    ["cyra", "research-protocol", "A portable research protocol"],
+  ]) {
+    await page.goto(`/library/${project}`);
+    await page
+      .getByRole("complementary", { name: "Related methods" })
+      .getByRole("link", { name: title })
+      .click();
+    await expect(page).toHaveURL(new RegExp(`/library/${note}$`));
+    await expect(page.locator(".article-access")).toHaveText(
+      "Private research",
+    );
+  }
+});

@@ -655,3 +655,12 @@ export const rankedProjects = entries
 export const researchProjects = rankedProjects.filter(
   (entry) => entry.collection === "Research",
 );
+
+export const relatedNotes: Record<string, readonly string[]> = {
+  cyr: ["permissions", "checkpoints", "evidence"],
+  seek: ["state-comparisons", "evidence"],
+  veritas: ["evidence-gates", "evidence"],
+  hydra: ["artifact-comparisons"],
+  cyra: ["research-protocol"],
+  "mahad-education": ["participant-consent"],
+};
