@@ -9,6 +9,14 @@ Run `npm test`, `npm run lint`, `npm run typecheck` and `npm run build` to check
 
 ## Publishing an entry
 
-Add an entry to `app/data.ts` with a unique slug, topic, kind, color, summary and article sections. The library, documentation listing and sitemap use this catalog. Link to public source material where useful. Keep private repositories, unpublished findings and personal contact information out of the catalog and résumé page.
+Add an entry to `app/data.ts` with a unique slug, topic, kind, collection, visibility, color, summary and article sections. The library, documentation listing and sitemap use this catalog. Link to public source material where useful. Private projects may be included as clearly labelled high-level summaries; keep their source code, raw notes, unpublished findings, report identifiers, and confidential artifacts out of the published content. Publish original personal documents only when the owner explicitly authorizes them.
+
+For a project, add its matching slug to `app/project-systems.ts` with a conceptual flow and plain-language stage explanations. These maps appear in the case study and homepage project gallery. Describe only architecture that is safe to publish; the diagram is an overview, not a live execution of the underlying system.
 
 The repository also supports the worker deployment described in [docs/deployment.md](docs/deployment.md).
+
+## Browser verification
+
+Run `npm run build` followed by `npm run test:e2e`. The suite starts a production server on port 3001. It uses system Chromium when available; otherwise run `npx playwright install chromium` first, or set `CHROMIUM_PATH`. To test a preview, use `BASE_URL=https://your-preview.vercel.app npm run test:e2e`.
+
+See [the redesign review](docs/review/README.md) for design decisions, public content sources, interaction behavior, and desktop/mobile captures.

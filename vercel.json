@@ -1,4 +1,15 @@
 {
   "framework": "nextjs",
-  "buildCommand": "npx next build"
+  "buildCommand": "npx next build",
+  "headers": [
+    {
+      "source": "/resume.pdf",
+      "headers": [
+        {
+          "key": "Content-Disposition",
+          "value": "inline; filename=\"Sinan-Alekar-CV.pdf\""
+        }
+      ]
+    }
+  ]
 }

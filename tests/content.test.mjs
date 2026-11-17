@@ -6,22 +6,109 @@ const root = new URL("../", import.meta.url);
 const read = (path) => readFile(new URL(path, root), "utf8");
 
 test("required public routes exist", async () => {
-  await Promise.all(["app/page.tsx","app/about/page.tsx","app/projects/page.tsx","app/resume/page.tsx","app/contact/page.tsx","app/library/page.tsx","app/docs/page.tsx"].map(path=>access(new URL(path,root))));
+  await Promise.all(
+    [
+      "app/page.tsx",
+      "app/about/page.tsx",
+      "app/projects/page.tsx",
+      "app/resume/page.tsx",
+      "app/contact/page.tsx",
+      "app/library/page.tsx",
+      "app/docs/page.tsx",
+    ].map((path) => access(new URL(path, root))),
+  );
 });
 
 test("the published catalog has unique routes and excludes retired project claims", async () => {
   const data = await read("app/data.ts");
-  const slugs = Array.from(data.matchAll(/slug: "([^"]+)"/g), match => match[1]);
+  const slugs = Array.from(
+    data.matchAll(/slug: "([^"]+)"/g),
+    (match) => match[1],
+  );
   assert.ok(slugs.length > 0);
   assert.equal(new Set(slugs).size, slugs.length);
-  for (const path of ["app/page.tsx", "app/about/page.tsx", "app/resume/page.tsx", "app/data.ts", "app/sitemap.ts"]) {
-    assert.doesNotMatch(await read(path), /Sentinental IX|IX:X|Founder & Lead Developer/);
+  for (const path of [
+    "app/page.tsx",
+    "app/about/page.tsx",
+    "app/resume/page.tsx",
+    "app/data.ts",
+    "app/sitemap.ts",
+  ]) {
+    assert.doesNotMatch(
+      await read(path),
+      /Sentinental IX|Founder & Lead Developer/,
+    );
   }
 });
 
 test("visitor PIN and admin systems are absent", async () => {
-  const packageJson=await read("package.json");
-  assert.doesNotMatch(packageJson,/bcrypt|argon2|jose/);
-  await assert.rejects(access(new URL("app/admin",root)));
-  await assert.rejects(access(new URL("app/unlock",root)));
+  const packageJson = await read("package.json");
+  assert.doesNotMatch(packageJson, /bcrypt|argon2|jose/);
+  await assert.rejects(access(new URL("app/admin", root)));
+  await assert.rejects(access(new URL("app/unlock", root)));
+});
+
+test("public pages and metadata exclude retired operations brand and inflated titles", async () => {
+  const { readdir } = await import("node:fs/promises");
+  async function files(dir) {
+    const items = await readdir(new URL(dir, root), { withFileTypes: true });
+    return (
+      await Promise.all(
+        items.map((item) =>
+          item.isDirectory()
+            ? files(`${dir}/${item.name}`)
+            : `${dir}/${item.name}`,
+        ),
+      )
+    ).flat();
+  }
+  for (const path of await files("app"))
+    if (/\.(tsx?|css|svg)$/.test(path))
+      assert.doesNotMatch(
+        await read(path),
+        /sent[ie]n[et]+al\s*ix|founder/i,
+        path,
+      );
+});
+
+test("the exact user-selected CV is hosted independently of Drive", async () => {
+  const { createHash } = await import("node:crypto");
+  const pdf = await readFile(new URL("public/resume.pdf", root));
+  assert.equal(pdf.subarray(0, 5).toString(), "%PDF-");
+  assert.equal(
+    createHash("sha256").update(pdf).digest("hex"),
+    "4a384a871a84660057f48da2127cec229cad198027541d80e1af41f5f22f9736",
+  );
+  assert.match(await read("app/resume/page.tsx"), /href="\/resume.pdf"/);
+  assert.doesNotMatch(await read("app/resume/page.tsx"), /drive.google/);
+});
+
+test("research summaries exclude removed work and private repository links", async () => {
+  const data =
+    (await read("app/data.ts")) + "\n" + (await read("app/project-systems.ts"));
+  assert.doesNotMatch(
+    data,
+    /disasters-platform|slug: "disasters"|incident-triage|triage with a human/i,
+  );
+  assert.doesNotMatch(
+    data,
+    /github\.com\/sinanalekar\/(seek|veritas|hydra-apple-vrs|cyra-skill)(?:\/|")/,
+  );
+  assert.doesNotMatch(
+    data,
+    /635|CVE-\d|kernelcache\.release|dossier|0day|remotezip\.py/,
+  );
+  for (const slug of ["cyr", "seek", "veritas", "hydra", "cyra"])
+    assert.match(data, new RegExp(`slug: "${slug}"`));
+});
+
+test("the supplied logo is used unchanged", async () => {
+  const { createHash } = await import("node:crypto");
+  const logo = await readFile(new URL("public/brand-logo.jpg", root));
+  assert.equal(
+    createHash("sha256").update(logo).digest("hex"),
+    "c72908d4430a87dca16eaa8406a31591ad6582245c88b01dd17f59e34d4b27f6",
+  );
+  assert.match(await read("app/profile.tsx"), /brand-logo\.jpg/);
+  assert.doesNotMatch(await read("app/profile.tsx"), /\bMark\b/);
 });
