@@ -4,9 +4,6 @@ export const links = {
   cyr: "https://github.com/sinanalekar/c-ra",
   portfolio: "https://github.com/sinanalekar/sinan-portfolio",
 };
-// Public source snapshot reviewed for the project notes. No runtime GitHub fetches.
-const cyrSource = `${links.cyr}/blob/2dda55e764420a020016c09cd4d3e04ad981993e`;
-const portfolioSource = `${links.portfolio}/blob/ef34463`;
 export type LibraryEntry = {
   slug: string;
   topic: string;
@@ -18,15 +15,16 @@ export type LibraryEntry = {
   rankReason?: string;
   status?: "Current" | "Legacy";
   stack?: readonly string[];
+  collection: "Research" | "Applications";
+  visibility: "Public source" | "Private research" | "Public summary";
+  focus?: string;
+  input?: string;
+  output?: string;
+  boundary?: string;
   sections: readonly (readonly [string, string])[];
   sources: readonly (readonly [string, string])[];
 };
-const disastersSource =
-  "https://github.com/sinanalekar/disasters-platform/blob/38c236b0cc59f976260d0153edbf2a505a5619c9";
-const mahadSource =
-  "https://github.com/sinanalekar/mahad-professional-education/blob/f13a53d904a402b7fd0ac7d1557e6eea6cb8d8c7";
-const profileSource =
-  "https://github.com/sinanalekar/sinanalekar/blob/66004605c3a6aafce91500fbd165fc2cf5065020/README.md";
+// Summaries only. Private code, research artifacts, and report details are not included.
 export const entries: readonly LibraryEntry[] = [
   {
     slug: "cyr",
@@ -60,14 +58,209 @@ export const entries: readonly LibraryEntry[] = [
       ],
     ],
     sources: [
-      ["README and architecture", `${cyrSource}/README.md`],
-      ["Permission implementation", `${cyrSource}/environment/capabilities.py`],
-      ["Task state and recovery", `${cyrSource}/environment/tasks.py`],
+      [
+        "README and architecture",
+        "https://github.com/sinanalekar/c-ra/blob/2dda55e764420a020016c09cd4d3e04ad981993e/README.md",
+      ],
+      [
+        "Permission implementation",
+        "https://github.com/sinanalekar/c-ra/blob/2dda55e764420a020016c09cd4d3e04ad981993e/environment/capabilities.py",
+      ],
+      [
+        "Task state and recovery",
+        "https://github.com/sinanalekar/c-ra/blob/2dda55e764420a020016c09cd4d3e04ad981993e/environment/tasks.py",
+      ],
+    ],
+    collection: "Research",
+    visibility: "Public source",
+    focus: "Desktop research orchestration",
+    input: "Scoped research tasks",
+    output: "Coordinated tools, task state, and research records",
+    boundary: "Available integrations depend on local configuration.",
+  },
+  {
+    kind: "Project",
+    color: "lavender",
+    status: "Current",
+    collection: "Research",
+    visibility: "Private research",
+    stack: ["Python"],
+    sources: [
+      ["Original CV", "/resume.pdf"],
+      [
+        "Public integration overview",
+        "https://github.com/sinanalekar/c-ra/blob/2dda55e764420a020016c09cd4d3e04ad981993e/README.md",
+      ],
+    ],
+    slug: "seek",
+    title: "SEEK",
+    rank: 2,
+    topic: "Security",
+    summary:
+      "A private research engine for modelling authorization state and comparing controlled behavior.",
+    rankReason:
+      "Follow the workspace with the engine that asks who gained access, under which conditions, and why.",
+    focus: "Security-state analysis",
+    input: "Authorized behavioral observations",
+    output: "State comparisons and evidence records",
+    boundary:
+      "Observations must be checked against controls and authorization context.",
+    sections: [
+      [
+        "What I built",
+        "SEEK is a private Python research engine for understanding how actions change security state. It models relationships between principals, capabilities, resources, and the authority behind an action.",
+      ],
+      [
+        "How the research is organised",
+        "The architecture records observations, compares state transitions, and plans counterfactual experiments in which one condition changes. Evidence review remains separate from model-generated suggestions.",
+      ],
+      [
+        "What this overview covers",
+        "This page describes the project’s purpose and design at a high level. The repository, internal experiments, results, and vulnerability material remain private.",
+      ],
+      [
+        "Related reading",
+        "The linked state-comparison note explains the general method without including source code, targets, or report details.",
+      ],
+    ],
+  },
+  {
+    kind: "Project",
+    color: "lavender",
+    status: "Current",
+    collection: "Research",
+    visibility: "Private research",
+    stack: ["Python"],
+    sources: [
+      ["Original CV", "/resume.pdf"],
+      [
+        "Public integration overview",
+        "https://github.com/sinanalekar/c-ra/blob/2dda55e764420a020016c09cd4d3e04ad981993e/README.md",
+      ],
+    ],
+    slug: "veritas",
+    title: "VERITAS",
+    rank: 3,
+    topic: "Research methods",
+    summary:
+      "A private framework for hypothesis-led experiments, negative controls, and traceable evidence decisions.",
+    rankReason:
+      "Next, inspect the validation discipline: how an observation is challenged before a conclusion is made.",
+    focus: "Experimental validation",
+    input: "A falsifiable hypothesis and scoped experiment",
+    output: "A reviewed conclusion with a traceable record",
+    boundary:
+      "A model suggestion does not substitute for a validated observation.",
+    sections: [
+      [
+        "What I built",
+        "VERITAS is a private research framework organised around hypotheses, controlled experiments, and evidence review. The design keeps an experiment’s question, authorisation, observations, challenges, and conclusion connected.",
+      ],
+      [
+        "Challenge before conclusion",
+        "Its methodology calls for replication, negative controls, checks for confounding conditions, and minimisation where appropriate. Negative or inconclusive outcomes are useful records rather than successes to be rewritten.",
+      ],
+      [
+        "Provenance and continuity",
+        "The project uses tamper-evident records and checkpoints to make research activity reviewable. This overview describes the method rather than publishing implementation details or asserting that every planned capability is complete.",
+      ],
+      [
+        "Disclosure boundary",
+        "Source code, internal evaluation results, real-target experiments, and unpublished findings remain confidential. The public CYR@ integration provides context for the project’s role.",
+      ],
+    ],
+  },
+  {
+    kind: "Project",
+    color: "lavender",
+    status: "Current",
+    collection: "Research",
+    visibility: "Private research",
+    stack: ["Python"],
+    sources: [
+      ["Original CV", "/resume.pdf"],
+      [
+        "Public integration overview",
+        "https://github.com/sinanalekar/c-ra/blob/2dda55e764420a020016c09cd4d3e04ad981993e/README.md",
+      ],
+    ],
+    slug: "hydra",
+    title: "HYDRA",
+    rank: 4,
+    topic: "Security",
+    summary:
+      "Private tooling for Apple software-artifact inspection, binary comparisons, and careful research-lead triage.",
+    rankReason:
+      "Explore the specialised artifact workflow after the general state-analysis and validation methods.",
+    focus: "Artifact and binary research",
+    input: "Authorized software artifacts",
+    output: "Comparisons and prioritised research leads",
+    boundary:
+      "A changed artifact is a research lead, not proof of a vulnerability.",
+    sections: [
+      [
+        "What I built",
+        "HYDRA is a private Python project for inspecting Apple software artifacts and comparing binary structure across versions. It helps organise research leads and their supporting observations.",
+      ],
+      [
+        "Where it fits",
+        "The workflow separates artifact acquisition, structural modelling, comparison, and subsequent review. A difference in software is treated as a lead to investigate, not as an accepted vulnerability or a claim of exploitability.",
+      ],
+      [
+        "Controls matter",
+        "General methods include checking an artifact against itself, keeping comparison inputs consistent, and distinguishing a structural change from an interpretation of its impact.",
+      ],
+      [
+        "Disclosure boundary",
+        "This page contains no source code, affected versions, binary locations, candidate inventories, report identifiers, reproduction steps, or unpublished bug details.",
+      ],
+    ],
+  },
+  {
+    kind: "Project",
+    color: "lavender",
+    status: "Current",
+    collection: "Research",
+    visibility: "Private research",
+    stack: ["Research methodology", "Agent workflows"],
+    sources: [
+      ["Original CV", "/resume.pdf"],
+      [
+        "Public integration overview",
+        "https://github.com/sinanalekar/c-ra/blob/2dda55e764420a020016c09cd4d3e04ad981993e/README.md",
+      ],
+    ],
+    slug: "cyra",
+    title: "CYRA",
+    rank: 5,
+    topic: "Research methods",
+    summary:
+      "A private portable research protocol for agents: scope, falsification, clear evidence, and honest reporting.",
+    rankReason:
+      "Finish with the portable method that carries the same research discipline across different agent tools.",
+    focus: "Portable research methodology",
+    input: "A research question and explicit scope",
+    output: "A structured, evidence-aware research process",
+    boundary:
+      "A written protocol is guidance; it does not guarantee an agent’s correctness.",
+    sections: [
+      [
+        "What I built",
+        "CYRA is a private portable research skill and methodology document. It describes how an agent should frame a question, respect research scope, seek disconfirming evidence, and report the limits of a result.",
+      ],
+      [
+        "Different from CYR@",
+        "CYRA is the portable protocol; CYR@ is the desktop software workspace. They share a concern for explicit authorisation and evidence but serve different roles.",
+      ],
+      [
+        "What this summary covers",
+        "The public overview describes the method without reproducing the skill file, private research notes, evaluation data, or findings. It does not claim that written instructions guarantee reliable agent behaviour.",
+      ],
     ],
   },
   {
     slug: "portfolio",
-    rank: 4,
+    rank: 7,
     status: "Current",
     stack: ["Next.js", "React", "TypeScript"],
     rankReason:
@@ -93,51 +286,22 @@ export const entries: readonly LibraryEntry[] = [
       ],
     ],
     sources: [
-      ["Portfolio source", links.portfolio],
-      ["Catalog and filters", `${portfolioSource}/app/catalog.tsx`],
-      ["Content model", `${portfolioSource}/app/data.ts`],
-    ],
-  },
-  {
-    slug: "disasters",
-    rank: 2,
-    status: "Current",
-    stack: ["Next.js", "TypeScript", "Firebase", "Capacitor"],
-    rankReason:
-      "A full product workflow, from a citizen report to a human-reviewed operations queue.",
-    topic: "Web apps",
-    kind: "Project",
-    color: "mint",
-    title: "Disasters",
-    summary:
-      "An emergency and civic-issue reporting app with triage, configurable routing, and incident tracking.",
-    sections: [
+      ["Portfolio source", "https://github.com/sinanalekar/sinan-portfolio"],
       [
-        "What I built",
-        "I built a web/PWA reporting interface, an authority operations dashboard, and an Android wrapper. The public project supports descriptions, media, location, incident status, and messaging around a shared report.",
+        "Catalog and filters",
+        "https://github.com/sinanalekar/sinan-portfolio/blob/ef34463/app/catalog.tsx",
       ],
       [
-        "How it works",
-        "The repository uses Firebase Authentication and Firestore, a Next.js web app, and Capacitor for Android. Triage can use a configured model provider or a deterministic rules fallback. The rules implementation shows how category and priority suggestions are derived and when human review is required.",
-      ],
-      [
-        "Where the boundary sits",
-        "This is a software project, not an emergency-response service or proof of adoption by an authority. Agency routing depends on configured, supported endpoints. The public README directs life-threatening emergencies to India’s 112 service.",
-      ],
-      [
-        "What to inspect",
-        "Read the README for the application boundaries, then inspect the triage function and its tests. The repository also contains the reporting, authority, admin, and Android application code. No incident records are reproduced here.",
+        "Content model",
+        "https://github.com/sinanalekar/sinan-portfolio/blob/ef34463/app/data.ts",
       ],
     ],
-    sources: [
-      ["Project README", `${disastersSource}/README.md`],
-      ["Triage implementation", `${disastersSource}/src/lib/triage.ts`],
-      ["Triage tests", `${disastersSource}/src/lib/triage.test.ts`],
-    ],
+    collection: "Applications",
+    visibility: "Public source",
   },
   {
     slug: "mahad-education",
-    rank: 3,
+    rank: 6,
     status: "Current",
     stack: ["Next.js", "TypeScript", "Firebase"],
     rankReason:
@@ -167,14 +331,25 @@ export const entries: readonly LibraryEntry[] = [
       ],
     ],
     sources: [
-      ["Project README", `${mahadSource}/README.md`],
-      ["Representation builder", `${mahadSource}/src/lib/representation.ts`],
-      ["Representation tests", `${mahadSource}/src/lib/representation.test.ts`],
+      [
+        "Project README",
+        "https://github.com/sinanalekar/mahad-professional-education/blob/f13a53d904a402b7fd0ac7d1557e6eea6cb8d8c7/README.md",
+      ],
+      [
+        "Representation builder",
+        "https://github.com/sinanalekar/mahad-professional-education/blob/f13a53d904a402b7fd0ac7d1557e6eea6cb8d8c7/src/lib/representation.ts",
+      ],
+      [
+        "Representation tests",
+        "https://github.com/sinanalekar/mahad-professional-education/blob/f13a53d904a402b7fd0ac7d1557e6eea6cb8d8c7/src/lib/representation.test.ts",
+      ],
     ],
+    collection: "Applications",
+    visibility: "Public source",
   },
   {
     slug: "ix-x",
-    rank: 5,
+    rank: 8,
     status: "Legacy",
     stack: ["React", "TypeScript", "Firebase", "Android"],
     rankReason:
@@ -200,9 +375,14 @@ export const entries: readonly LibraryEntry[] = [
       ],
     ],
     sources: [
-      ["Public project profile", `${profileSource}#featured-projects`],
+      [
+        "Public project profile",
+        "https://github.com/sinanalekar/sinanalekar/blob/66004605c3a6aafce91500fbd165fc2cf5065020/README.md#featured-projects",
+      ],
       ["Previously published application", "https://ix-zeta.vercel.app"],
     ],
+    collection: "Applications",
+    visibility: "Public summary",
   },
   {
     slug: "permissions",
@@ -229,10 +409,15 @@ export const entries: readonly LibraryEntry[] = [
     sources: [
       [
         "Capabilities documentation",
-        `${cyrSource}/README.md#capabilities-and-authorization`,
+        "https://github.com/sinanalekar/c-ra/blob/2dda55e764420a020016c09cd4d3e04ad981993e/README.md#capabilities-and-authorization",
       ],
-      ["Capabilities module", `${cyrSource}/environment/capabilities.py`],
+      [
+        "Capabilities module",
+        "https://github.com/sinanalekar/c-ra/blob/2dda55e764420a020016c09cd4d3e04ad981993e/environment/capabilities.py",
+      ],
     ],
+    collection: "Research",
+    visibility: "Public source",
   },
   {
     slug: "checkpoints",
@@ -259,37 +444,15 @@ export const entries: readonly LibraryEntry[] = [
     sources: [
       [
         "Tasks and recovery documentation",
-        `${cyrSource}/README.md#tasks-agents-and-recovery`,
-      ],
-      ["Tasks module", `${cyrSource}/environment/tasks.py`],
-    ],
-  },
-  {
-    slug: "incident-triage",
-    topic: "Engineering",
-    kind: "Documentation",
-    color: "mint",
-    title: "Triage with a human decision point",
-    summary:
-      "Inside the deterministic fallback that suggests category and urgency for a report.",
-    sections: [
-      [
-        "The fallback",
-        "The Disasters rules module compares a report description with category keyword groups. It uses those matches to suggest a category and priority, with an additional urgency adjustment for danger language.",
+        "https://github.com/sinanalekar/c-ra/blob/2dda55e764420a020016c09cd4d3e04ad981993e/README.md#tasks-agents-and-recovery",
       ],
       [
-        "Human review",
-        "The implementation marks a result for human review when confidence is below its threshold or the priority is critical. A suggestion helps route a report; it is not a substitute for an emergency responder’s decision.",
-      ],
-      [
-        "Inspect a small function",
-        "The public triage function and its tests make this a useful small piece of code to review independently of the full application. Read the tests alongside the implementation to understand its boundaries.",
+        "Tasks module",
+        "https://github.com/sinanalekar/c-ra/blob/2dda55e764420a020016c09cd4d3e04ad981993e/environment/tasks.py",
       ],
     ],
-    sources: [
-      ["Rules implementation", `${disastersSource}/src/lib/triage.ts`],
-      ["Rules tests", `${disastersSource}/src/lib/triage.test.ts`],
-    ],
+    collection: "Research",
+    visibility: "Public source",
   },
   {
     slug: "participant-consent",
@@ -314,9 +477,17 @@ export const entries: readonly LibraryEntry[] = [
       ],
     ],
     sources: [
-      ["Integrity model", `${mahadSource}/README.md#integrity-model`],
-      ["Representation source", `${mahadSource}/src/lib/representation.ts`],
+      [
+        "Integrity model",
+        "https://github.com/sinanalekar/mahad-professional-education/blob/f13a53d904a402b7fd0ac7d1557e6eea6cb8d8c7/README.md#integrity-model",
+      ],
+      [
+        "Representation source",
+        "https://github.com/sinanalekar/mahad-professional-education/blob/f13a53d904a402b7fd0ac7d1557e6eea6cb8d8c7/src/lib/representation.ts",
+      ],
     ],
+    collection: "Applications",
+    visibility: "Public source",
   },
   {
     slug: "evidence",
@@ -340,10 +511,147 @@ export const entries: readonly LibraryEntry[] = [
         "Distinguish the observed result from your interpretation. Note the conditions you actually checked and questions that remain open. This is a general methods note; it does not describe a vulnerability finding.",
       ],
     ],
-    sources: [["Original public note", `${portfolioSource}/app/data.ts`]],
+    sources: [
+      [
+        "Original public note",
+        "https://github.com/sinanalekar/sinan-portfolio/blob/ef34463/app/data.ts",
+      ],
+    ],
+    collection: "Research",
+    visibility: "Public source",
+  },
+  {
+    slug: "state-comparisons",
+    title: "Comparing security states",
+    topic: "Security",
+    summary:
+      "A SEEK methods note on principals, authority, capabilities, and changing one condition at a time.",
+    sections: [
+      [
+        "Start with a state",
+        "Describe the principal, resource, action, and authority involved before interpreting a result. A successful action alone does not explain why access was allowed.",
+      ],
+      [
+        "Change one condition",
+        "A counterfactual comparison keeps the experiment understandable: change one relevant condition and record what stays the same.",
+      ],
+      [
+        "Keep observation and impact separate",
+        "A changed state can motivate another experiment. It does not, by itself, establish a vulnerability or its severity.",
+      ],
+    ],
+    kind: "Note",
+    color: "lavender",
+    collection: "Research",
+    visibility: "Private research",
+    sources: [
+      ["Original CV", "/resume.pdf"],
+      [
+        "Public integration overview",
+        "https://github.com/sinanalekar/c-ra/blob/2dda55e764420a020016c09cd4d3e04ad981993e/README.md",
+      ],
+    ],
+  },
+  {
+    slug: "evidence-gates",
+    title: "Challenge before conclusion",
+    topic: "Research methods",
+    summary:
+      "A VERITAS methods note on replication, negative controls, and the value of inconclusive results.",
+    sections: [
+      [
+        "Make the question falsifiable",
+        "State what would count against the hypothesis before interpreting the observation.",
+      ],
+      [
+        "Challenge the result",
+        "Repeat the observation, compare a suitable negative control, and check whether another changing condition could explain it.",
+      ],
+      [
+        "Record the outcome honestly",
+        "Supported, refuted, blocked, and inconclusive outcomes each carry useful information. Keep the evidence needed to understand the decision.",
+      ],
+    ],
+    kind: "Note",
+    color: "lavender",
+    collection: "Research",
+    visibility: "Private research",
+    sources: [
+      ["Original CV", "/resume.pdf"],
+      [
+        "Public integration overview",
+        "https://github.com/sinanalekar/c-ra/blob/2dda55e764420a020016c09cd4d3e04ad981993e/README.md",
+      ],
+    ],
+  },
+  {
+    slug: "artifact-comparisons",
+    title: "A difference is a starting point",
+    topic: "Security",
+    summary:
+      "A HYDRA methods note on comparing software artifacts without overstating what a change proves.",
+    sections: [
+      [
+        "Check the baseline",
+        "A comparison should first be quiet when an artifact is compared with itself. Unexpected changes in that control need explanation.",
+      ],
+      [
+        "Separate structure from interpretation",
+        "An observed binary or structural difference establishes that something changed. Its security meaning requires further evidence.",
+      ],
+      [
+        "Keep the boundary visible",
+        "This note describes comparison discipline. It contains no affected versions, candidate details, target identifiers, or unpublished findings.",
+      ],
+    ],
+    kind: "Note",
+    color: "lavender",
+    collection: "Research",
+    visibility: "Private research",
+    sources: [
+      ["Original CV", "/resume.pdf"],
+      [
+        "Public integration overview",
+        "https://github.com/sinanalekar/c-ra/blob/2dda55e764420a020016c09cd4d3e04ad981993e/README.md",
+      ],
+    ],
+  },
+  {
+    slug: "research-protocol",
+    title: "A portable research protocol",
+    topic: "Research methods",
+    summary:
+      "A CYRA methods note on carrying scope and evidence discipline between agent tools.",
+    sections: [
+      [
+        "Name the scope",
+        "A portable protocol starts by describing the question, allowed work, and the conditions under which an experiment should stop.",
+      ],
+      [
+        "Keep an inspectable record",
+        "Record the observation, the comparison, and the reason for the conclusion. Distinguish tool output from the interpretation written about it.",
+      ],
+      [
+        "Write down the limits",
+        "A method should make uncertainty visible. Instructions guide the process; verification still depends on the evidence collected.",
+      ],
+    ],
+    kind: "Note",
+    color: "lavender",
+    collection: "Research",
+    visibility: "Private research",
+    sources: [
+      ["Original CV", "/resume.pdf"],
+      [
+        "Public integration overview",
+        "https://github.com/sinanalekar/c-ra/blob/2dda55e764420a020016c09cd4d3e04ad981993e/README.md",
+      ],
+    ],
   },
 ];
-
 export const rankedProjects = entries
   .filter((entry) => entry.kind === "Project")
   .toSorted((a, b) => (a.rank ?? 99) - (b.rank ?? 99));
+export const researchProjects = rankedProjects.filter(
+  (entry) => entry.collection === "Research",
+);

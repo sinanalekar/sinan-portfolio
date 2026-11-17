@@ -14,11 +14,17 @@ const routes = [
   "/library/permissions",
   "/library/checkpoints",
   "/library/evidence",
-  "/library/disasters",
   "/library/mahad-education",
   "/library/ix-x",
-  "/library/incident-triage",
   "/library/participant-consent",
+  "/library/seek",
+  "/library/veritas",
+  "/library/hydra",
+  "/library/cyra",
+  "/library/state-comparisons",
+  "/library/evidence-gates",
+  "/library/artifact-comparisons",
+  "/library/research-protocol",
 ];
 for (const scenario of [
   { name: "desktop dark", width: 1440, theme: "dark" },
@@ -60,8 +66,13 @@ test("Library combines search and topic filters and recovers from no results", a
   page,
 }) => {
   await page.goto("/library");
-  await expect(page.getByRole("status")).toHaveText("10 entries");
-  await page.getByRole("button", { name: "Security", exact: false }).click();
+  await expect(page.getByRole("status")).toHaveText("16 entries");
+  await page
+    .locator(".shelf")
+    .getByRole("button", { name: "Security", exact: false })
+    .click();
+  await expect(page.getByRole("status")).toHaveText("5 entries");
+  await page.getByRole("searchbox").fill("Tool permissions");
   await expect(page.getByRole("status")).toHaveText("1 entry");
   await expect(page.locator(".card h3")).toHaveText(["Tool permissions"]);
   await page
@@ -69,7 +80,7 @@ test("Library combines search and topic filters and recovers from no results", a
     .fill("checkpoints");
   await expect(page.getByRole("status")).toHaveText("0 entries");
   await page.getByRole("button", { name: "Clear search and filters" }).click();
-  await expect(page.getByRole("status")).toHaveText("10 entries");
+  await expect(page.getByRole("status")).toHaveText("16 entries");
   await page.getByRole("searchbox").fill("  LOCAL DESKTOP  ");
   await expect(page.locator(".card h3")).toHaveText(["CYR@"]);
   await page.locator(".card").click();
@@ -78,9 +89,9 @@ test("Library combines search and topic filters and recovers from no results", a
     page.getByRole("link", { name: "Permission implementation" }),
   ).toHaveAttribute("href", /2dda55e.*capabilities.py$/);
   await page.goto("/docs");
-  await expect(page.locator(".card")).toHaveCount(5);
+  await expect(page.locator(".card")).toHaveCount(8);
   await page.goto("/projects");
-  await expect(page.locator(".card")).toHaveCount(5);
+  await expect(page.locator(".card")).toHaveCount(8);
 });
 test("narrow Library filters remain reachable with touch and keyboard", async ({
   page,
@@ -90,7 +101,7 @@ test("narrow Library filters remain reachable with touch and keyboard", async ({
   const filter = page.getByRole("button", { name: "Research methods" });
   await filter.scrollIntoViewIfNeeded();
   await filter.click();
-  await expect(page.getByRole("status")).toHaveText("1 entry");
+  await expect(page.getByRole("status")).toHaveText("5 entries");
   await filter.focus();
   await page.keyboard.press("Enter");
   await expect(filter).toHaveAttribute("aria-pressed", "true");
@@ -267,31 +278,22 @@ test("contact form completes the browser-to-API preparation flow", async ({
   await expect(page.getByRole("status")).toContainText("Your message is ready");
 });
 
-test("Library ranking, alphabetical order, type controls and legacy entry", async ({
+test("Library ranks research first, supports applications and legacy filters", async ({
   page,
 }) => {
   await page.goto("/library");
-  await expect(page.locator(".card h3")).toHaveText([
-    "CYR@",
-    "Disasters",
-    "Mahad education initiative",
-    "Research portfolio",
-    "IX:X",
-    "Tool permissions",
-    "Task checkpoints",
-    "Triage with a human decision point",
-    "Consent before submission",
-    "Writing a useful evidence record",
-  ]);
+  await expect(page.locator(".card h3").nth(0)).toHaveText("CYR@");
+  await expect(page.locator(".card h3").nth(1)).toHaveText("SEEK");
+  await expect(page.locator(".card h3").nth(2)).toHaveText("VERITAS");
+  await expect(page.locator(".card h3").nth(3)).toHaveText("HYDRA");
+  await expect(page.locator(".card h3").nth(4)).toHaveText("CYRA");
   await page
     .getByRole("group", { name: "Entry type" })
-    .getByRole("button", { name: "Projects", exact: true })
+    .getByRole("button", { name: "Applications", exact: true })
     .click();
-  await expect(page.getByRole("status")).toHaveText("5 entries");
+  await expect(page.getByRole("status")).toHaveText("3 entries");
   await page.getByLabel("Sort entries").selectOption("az");
   await expect(page.locator(".card h3")).toHaveText([
-    "CYR@",
-    "Disasters",
     "IX:X",
     "Mahad education initiative",
     "Research portfolio",
@@ -338,16 +340,29 @@ test("light theme also renders before JavaScript runs", async ({ browser }) => {
   await context.close();
 });
 
-test("recommended reading order expands without hiding the search controls", async ({
+test("research explorer switches projects and compares their roles", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/library");
-  await expect(page.locator(".library-picks")).not.toHaveAttribute("open", "");
-  await page.getByText("Why this reading order?", { exact: true }).click();
-  await expect(page.locator(".picks-list>a")).toHaveCount(3);
-  await expect(page.locator(".picks-list")).toBeVisible();
-  await page.getByText("Why this reading order?", { exact: true }).click();
+  await page
+    .getByRole("group", { name: "Research project" })
+    .getByRole("button", { name: /HYDRA/ })
+    .click();
+  await expect(page.locator(".explorer-title h3")).toHaveText("HYDRA");
+  await expect(page.locator(".explorer-title .access-badge")).toHaveText(
+    "Private research",
+  );
+  await page.getByRole("button", { name: "Compare roles" }).click();
+  await page.getByLabel("Compare with").selectOption("veritas");
+  await expect(
+    page.getByRole("columnheader", { name: "HYDRA", exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("columnheader", { name: "VERITAS", exact: true }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "Close comparison" }).click();
+  await expect(page.getByRole("table")).toHaveCount(0);
   await expect(page.getByRole("searchbox")).toBeVisible();
 });
 test("existing project case-study URLs lead to their current articles", async ({
@@ -358,4 +373,59 @@ test("existing project case-study URLs lead to their current articles", async ({
   await expect(page.locator(".article-legacy")).toHaveText("Legacy project");
   await page.goto("/projects/cyr/details");
   await expect(page).toHaveURL(/\/library\/cyr$/);
+});
+
+test("mobile profile uses the male illustration, specialization, and expandable layout", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+  const image = page.getByRole("img", {
+    name: "Stylized male student with curly dark hair working at a laptop",
+  });
+  await expect(image).toBeVisible();
+  await expect
+    .poll(() => image.evaluate((el: HTMLImageElement) => el.naturalWidth))
+    .toBeGreaterThan(0);
+  await expect(
+    page.getByText("Specialization:", { exact: true }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "Minimize profile" }).click();
+  await expect(page.locator(".profile-card")).toHaveAttribute(
+    "data-expanded",
+    "false",
+  );
+  await page.getByRole("button", { name: "Expand profile" }).click();
+  await expect(page.locator(".profile-card")).toHaveAttribute(
+    "data-expanded",
+    "true",
+  );
+  await page.goto("/library");
+  await expect(page.locator(".profile-card")).toHaveAttribute(
+    "data-expanded",
+    "false",
+  );
+  await expect(page.locator(".profile-based")).not.toBeVisible();
+  await expect(page.locator(".specialization>.micro")).not.toBeVisible();
+});
+test("removed platform and related triage page are not published", async ({
+  page,
+}) => {
+  for (const path of ["/library/disasters", "/library/incident-triage"]) {
+    expect((await page.goto(path))?.status()).toBe(404);
+  }
+  await page.goto("/library");
+  await expect(page.locator("main")).not.toContainText(
+    /Disasters|incident triage/i,
+  );
+  for (const slug of ["seek", "veritas", "hydra", "cyra"]) {
+    await page.goto(`/library/${slug}`);
+    await expect(page.locator(".article-access")).toHaveText(
+      "Private research",
+    );
+    for (const link of await page.locator(".source-list a").all())
+      expect(await link.getAttribute("href")).not.toMatch(
+        /github.com\/sinanalekar\/(seek|veritas|hydra-apple-vrs|cyra-skill)(\/|$)/,
+      );
+  }
 });

@@ -9,7 +9,7 @@ Run `npm test`, `npm run lint`, `npm run typecheck` and `npm run build` to check
 
 ## Publishing an entry
 
-Add an entry to `app/data.ts` with a unique slug, topic, kind, color, summary and article sections. The library, documentation listing and sitemap use this catalog. Link to public source material where useful. Keep private repositories, unpublished findings and personal contact information out of the catalog and résumé page.
+Add an entry to `app/data.ts` with a unique slug, topic, kind, collection, visibility, color, summary and article sections. The library, documentation listing and sitemap use this catalog. Link to public source material where useful. Private projects may be included as clearly labelled high-level summaries; keep their source code, raw notes, unpublished findings, report identifiers, and confidential artifacts out of the published content. Publish original personal documents only when the owner explicitly authorizes them.
 
 The repository also supports the worker deployment described in [docs/deployment.md](docs/deployment.md).
 

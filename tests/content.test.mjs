@@ -86,3 +86,21 @@ test("the exact user-selected CV is hosted independently of Drive", async () => 
   assert.match(await read("app/resume/page.tsx"), /href="\/resume.pdf"/);
   assert.doesNotMatch(await read("app/resume/page.tsx"), /drive.google/);
 });
+
+test("research summaries exclude removed work and private repository links", async () => {
+  const data = await read("app/data.ts");
+  assert.doesNotMatch(
+    data,
+    /disasters-platform|slug: "disasters"|incident-triage|triage with a human/i,
+  );
+  assert.doesNotMatch(
+    data,
+    /github\.com\/sinanalekar\/(seek|veritas|hydra-apple-vrs|cyra-skill)(?:\/|")/,
+  );
+  assert.doesNotMatch(
+    data,
+    /635|CVE-\d|kernelcache\.release|dossier|0day|remotezip\.py/,
+  );
+  for (const slug of ["cyr", "seek", "veritas", "hydra", "cyra"])
+    assert.match(data, new RegExp(`slug: "${slug}"`));
+});

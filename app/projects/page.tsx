@@ -8,12 +8,13 @@ export default function Projects() {
         <h1>
           Different questions.
           <br />
-          Working answers.
+          Connected methods.
         </h1>
         <p>
-          Five projects in a suggested reading order: research tooling, civic
-          applications, this portfolio, and a legacy learning app. Each write-up
-          explains what’s public and what you can inspect.
+          Research systems, web applications, and a legacy learning app. The
+          reading order starts with the research workspace; each overview
+          identifies whether its source is public or its implementation remains
+          private.
         </p>
       </div>
       <Catalog mode="projects" />

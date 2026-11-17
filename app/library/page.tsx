@@ -1,52 +1,30 @@
-import Link from "next/link";
 import Catalog from "../catalog";
-import { rankedProjects } from "../data";
-export const metadata = { title: "Library" };
+import ResearchExplorer from "../research-explorer";
+export const metadata = { title: "Research library" };
 export default function Library() {
   return (
     <>
       <div className="page-intro library-intro">
-        <p className="eyebrow">The collection / Code, ideas & working notes</p>
+        <p className="eyebrow">
+          The research library / Systems, methods & working notes
+        </p>
         <h1>
-          A closer look
+          Questions, tools,
           <br />
-          at the work.
+          and the work between.
         </h1>
         <p>
-          Public projects, architecture notes, and research methods. Search by
-          topic or tool, or start with the recommended reading order below.
+          Explore CYR@, SEEK, VERITAS, HYDRA, and CYRA. Public code sits
+          alongside carefully scoped summaries of private research, with notes
+          on the methods behind it.
         </p>
+        <div className="actions">
+          <a className="text-link" href="#library-catalog">
+            Search the collection <span aria-hidden="true">↓</span>
+          </a>
+        </div>
       </div>
-      <details className="library-picks">
-        <summary>
-          <span>
-            <span className="micro">A SUGGESTED STARTING POINT</span>
-            <strong>Why this reading order?</strong>
-          </span>
-          <span className="picks-toggle" aria-hidden="true">
-            ＋
-          </span>
-        </summary>
-        <div className="picks-intro">
-          <span className="micro">START HERE</span>
-          <p>
-            A curated reading order, based on implementation depth and available
-            public source.
-          </p>
-        </div>
-        <div className="picks-list">
-          {rankedProjects.slice(0, 3).map((entry) => (
-            <Link href={`/library/${entry.slug}`} key={entry.slug}>
-              <span className="pick-rank">0{entry.rank}</span>
-              <div>
-                <h2>{entry.title}</h2>
-                <p>{entry.rankReason}</p>
-              </div>
-              <span aria-hidden="true">↗</span>
-            </Link>
-          ))}
-        </div>
-      </details>
+      <ResearchExplorer />
       <Catalog />
     </>
   );

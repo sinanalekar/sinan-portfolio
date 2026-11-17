@@ -3072,3 +3072,453 @@ html[data-theme="light"] .hero-orb {
     font-size: 17px;
   }
 }
+/* Research collection explorer. */
+.research-explorer {
+  padding: 34px 0 48px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 42px;
+  scroll-margin-top: 100px;
+}
+.explorer-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 30px;
+}
+.explorer-heading h2 {
+  font-size: 38px;
+  margin-bottom: 0;
+}
+.explorer-heading > .button {
+  min-height: 39px;
+  font-size: 11px;
+  flex: none;
+}
+.explorer-intro {
+  font-size: 13px;
+  color: var(--muted);
+  max-width: 75ch;
+  margin: 25px 0 28px;
+}
+.explorer-picker {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+}
+.explorer-picker button {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  gap: 8px;
+  padding: 16px 13px;
+  min-height: 116px;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  background: transparent;
+  color: var(--ink);
+  transition:
+    background 180ms,
+    border-color 180ms,
+    transform 180ms;
+}
+.explorer-picker button > strong {
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.explorer-picker button > span:last-child {
+  font-size: 9px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.explorer-picker button[aria-pressed="true"] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+.explorer-picker button[aria-pressed="true"] .micro,
+.explorer-picker button[aria-pressed="true"] > span:last-child {
+  color: var(--accent-ink);
+}
+.explorer-picker button:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent);
+}
+.explorer-panel {
+  padding: 26px;
+  border: 1px solid var(--line);
+  border-radius: 17px;
+  background: var(--surface);
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px 32px;
+}
+.explorer-title h3 {
+  font-size: 35px;
+  margin: 16px 0;
+}
+.explorer-title p {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 0;
+  max-width: 46ch;
+}
+.access-badge {
+  display: inline-flex;
+  padding: 4px 9px;
+  border: 1px solid var(--line);
+  border-radius: 30px;
+  font-size: 9px;
+  line-height: 1.6;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+.article-access {
+  margin: 0 0 18px;
+}
+.explorer-panel dl {
+  margin: 0;
+}
+.explorer-panel dl > div {
+  padding: 13px 0;
+  border-bottom: 1px solid var(--line);
+}
+.explorer-panel dl > div:first-child {
+  padding-top: 4px;
+}
+.explorer-panel dt {
+  font-size: 9px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.explorer-panel dd {
+  font-size: 13px;
+  margin: 6px 0 0;
+  line-height: 1.6;
+}
+.explorer-bottom {
+  grid-column: 1/-1;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+}
+.explorer-bottom p {
+  font-size: 11px;
+  color: var(--muted);
+  max-width: 61ch;
+  margin: 0;
+}
+.explorer-bottom > .text-link {
+  flex: none;
+}
+.research-comparison {
+  margin-top: 30px;
+  padding: 27px 0 0;
+  border-top: 1px solid var(--line);
+}
+.comparison-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 25px;
+  margin-bottom: 25px;
+}
+.comparison-heading h3 {
+  font-size: 27px;
+  margin: 0;
+}
+.comparison-heading label {
+  font-size: 10px;
+  color: var(--muted);
+  display: grid;
+  gap: 8px;
+  min-width: 160px;
+}
+.comparison-heading select {
+  font-size: 12px;
+  min-height: 41px;
+}
+.comparison-scroll {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+.research-comparison table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  text-align: left;
+  line-height: 1.7;
+}
+.research-comparison th,
+.research-comparison td {
+  padding: 15px 18px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+.research-comparison thead {
+  background: var(--surface);
+}
+.research-comparison thead th {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 600;
+}
+.research-comparison tbody th {
+  font-size: 10px;
+  color: var(--muted);
+  font-weight: 400;
+}
+.research-comparison td {
+  width: 40%;
+  color: var(--muted);
+}
+.research-comparison tr:last-child th,
+.research-comparison tr:last-child td {
+  border-bottom: 0;
+}
+.entry-access {
+  display: inline-flex;
+  margin-left: 10px;
+  color: var(--accent);
+  font-size: 8px;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.research-explorer + .catalog .catalog-types {
+  gap: 0;
+}
+@media (max-width: 1100px) {
+  .explorer-heading h2 {
+    font-size: 33px;
+  }
+  .explorer-picker {
+    gap: 5px;
+  }
+  .explorer-picker button {
+    padding: 13px 9px;
+  }
+  .explorer-picker button > strong {
+    font-size: 16px;
+  }
+  .explorer-picker button > span:last-child {
+    font-size: 8px;
+  }
+  .explorer-panel {
+    gap: 20px;
+    padding: 22px;
+  }
+  .explorer-panel dd {
+    font-size: 12px;
+  }
+  .research-comparison th,
+  .research-comparison td {
+    padding: 13px;
+  }
+}
+@media (max-width: 760px) {
+  .research-explorer {
+    padding: 26px 0 32px;
+    margin-bottom: 20px;
+    scroll-margin-top: 30px;
+  }
+  .explorer-heading {
+    align-items: flex-start;
+    gap: 17px;
+  }
+  .explorer-heading h2 {
+    font-size: 29px;
+  }
+  .explorer-heading > .button {
+    font-size: 10px;
+    min-height: 39px;
+    padding: 8px 12px;
+    gap: 8px;
+    margin-top: 34px;
+  }
+  .explorer-heading .eyebrow {
+    font-size: 9px;
+  }
+  .explorer-intro {
+    font-size: 12px;
+    margin: 20px 0;
+  }
+  .explorer-picker {
+    display: flex;
+    overflow-x: auto;
+    gap: 7px;
+    margin: 0 -20px;
+    padding: 4px 20px 10px;
+    scrollbar-width: thin;
+    scroll-snap-type: x proximity;
+  }
+  .explorer-picker button {
+    min-width: 135px;
+    width: 135px;
+    flex: none;
+    scroll-snap-align: start;
+    padding: 14px;
+    min-height: 112px;
+  }
+  .explorer-picker button > strong {
+    font-size: 20px;
+  }
+  .explorer-picker button > span:last-child {
+    font-size: 9px;
+  }
+  .explorer-picker button:hover {
+    transform: none;
+  }
+  .explorer-panel {
+    display: block;
+    padding: 21px;
+    margin-top: 10px;
+  }
+  .explorer-title h3 {
+    font-size: 32px;
+    margin: 16px 0;
+  }
+  .explorer-title p {
+    font-size: 13px;
+  }
+  .explorer-panel dl {
+    margin-top: 22px;
+  }
+  .explorer-panel dd {
+    font-size: 13px;
+  }
+  .explorer-panel dl > div {
+    padding-block: 15px;
+  }
+  .explorer-bottom {
+    display: block;
+    margin-top: 20px;
+    padding-top: 18px;
+  }
+  .explorer-bottom p {
+    font-size: 11px;
+  }
+  .explorer-bottom .text-link {
+    margin-top: 16px;
+  }
+  .comparison-heading {
+    display: block;
+  }
+  .comparison-heading h3 {
+    font-size: 25px;
+    margin-bottom: 20px;
+  }
+  .comparison-heading label {
+    max-width: 210px;
+    font-size: 11px;
+  }
+  .research-comparison table {
+    min-width: 420px;
+    font-size: 11px;
+  }
+  .research-comparison th,
+  .research-comparison td {
+    padding: 12px;
+  }
+  .research-comparison thead th {
+    font-size: 16px;
+  }
+  .entry-access {
+    font-size: 8px;
+    margin-left: 8px;
+  }
+  .research-explorer .access-badge {
+    font-size: 9px;
+  }
+  .library-intro h1 {
+    font-size: 35px;
+  }
+  .library-intro {
+    padding-top: 32px;
+  }
+  .catalog-types {
+    row-gap: 5px;
+  }
+  .catalog-types button {
+    font-size: 9px;
+    min-height: 40px;
+  }
+  .profile-panel.profile-card {
+    padding: 22px;
+    gap: 18px;
+  }
+  .profile-card .profile-name {
+    font-size: 30px;
+  }
+  .profile-card .profile-portrait {
+    aspect-ratio: 1.12;
+  }
+  .profile-card .profile-details {
+    gap: 17px;
+  }
+  .profile-card .profile-details p {
+    font-size: 18px;
+  }
+  .profile-card .profile-based p {
+    font-size: 16px;
+  }
+  .profile-card .profile-student {
+    font-size: 9px;
+  }
+}
+@media (max-width: 380px) {
+  .explorer-heading {
+    display: block;
+  }
+  .explorer-heading > .button {
+    margin-top: 20px;
+  }
+  .entry-access {
+    display: block;
+    margin: 7px 0 0;
+  }
+  .library-intro h1 {
+    font-size: 31px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .explorer-picker button:hover {
+    transform: none;
+  }
+}
+@media (max-width: 380px) {
+  .explorer-picker {
+    margin-inline: -16px;
+    padding-inline: 16px;
+  }
+}
+.library-intro > p:not(.eyebrow) {
+  color: var(--muted);
+  max-width: 64ch;
+  font-size: 16px;
+  margin: 0;
+}
+.library-intro > .actions {
+  margin-top: 23px;
+}
+.library-intro > .actions .text-link {
+  font-size: 12px;
+  color: var(--accent);
+}
+@media (max-width: 760px) {
+  .library-intro > p:not(.eyebrow) {
+    font-size: 13px;
+  }
+  .library-intro > .actions {
+    margin-top: 20px;
+  }
+}

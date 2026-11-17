@@ -4,16 +4,17 @@ export default function Docs() {
   return (
     <>
       <div className="page-intro">
-        <p className="eyebrow">Behind the implementation / Docs</p>
+        <p className="eyebrow">Behind the work / Notes & documentation</p>
         <h1>
-          Small decisions.
+          Make the method
           <br />
-          Visible reasoning.
+          understandable.
         </h1>
         <p>
-          Read the implementation notes: tool permissions, task recovery,
-          triage, participant consent, and evidence records. Each note links to
-          its public source.
+          Permissions, checkpoints, state comparisons, experimental controls,
+          artifact comparisons, and a portable research protocol.
+          Private-project notes explain the method without publishing code or
+          findings.
         </p>
       </div>
       <Catalog mode="docs" />

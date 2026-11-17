@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { entries } from "./data";
+import { entries, researchProjects } from "./data";
 import { Arrow } from "./icons";
 import ProjectGallery from "./project-gallery";
 
@@ -151,44 +151,29 @@ export default function Home() {
       <section className="home-section discovery-section">
         <div className="section-heading">
           <div>
-            <p className="eyebrow">More from the workbench</p>
+            <p className="eyebrow">A connected research library</p>
             <h2>
-              Software with
-              <br />a public purpose.
+              Five roles.
+              <br />
+              One careful approach.
             </h2>
           </div>
-          <Link className="text-link" href="/library">
-            Explore the Library <Arrow diagonal />
+          <Link className="text-link" href="/library#research-library">
+            Explore & compare <Arrow diagonal />
           </Link>
         </div>
         <div className="discovery-list">
-          <Link href="/library/disasters">
-            <span className="discovery-number">02</span>
-            <div>
-              <span className="micro">WEB / PWA / ANDROID</span>
-              <h3>Disasters platform</h3>
-              <p>Reporting, triage, and incident workflows.</p>
-            </div>
-            <Arrow diagonal />
-          </Link>
-          <Link href="/library/mahad-education">
-            <span className="discovery-number">03</span>
-            <div>
-              <span className="micro">CIVIC WEB APPLICATION</span>
-              <h3>Mahad education initiative</h3>
-              <p>Verified participation and explicit consent.</p>
-            </div>
-            <Arrow diagonal />
-          </Link>
-          <Link href="/library/ix-x">
-            <span className="discovery-number">05</span>
-            <div>
-              <span className="micro">LEGACY PROJECT</span>
-              <h3>IX:X learning app</h3>
-              <p>An earlier Android, web, and PWA project.</p>
-            </div>
-            <Arrow diagonal />
-          </Link>
+          {researchProjects.map((project) => (
+            <Link href={`/library/${project.slug}`} key={project.slug}>
+              <span className="discovery-number">0{project.rank}</span>
+              <div>
+                <span className="micro">{project.visibility}</span>
+                <h3>{project.title}</h3>
+                <p>{project.focus}</p>
+              </div>
+              <Arrow diagonal />
+            </Link>
+          ))}
         </div>
       </section>
       <section className="home-section research-feature">

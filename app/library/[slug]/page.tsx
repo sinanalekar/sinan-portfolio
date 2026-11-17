@@ -26,6 +26,7 @@ export default async function LibraryEntry({ params }: Props) {
         <p className="eyebrow">
           {entry.kind} / {entry.topic}
         </p>
+        <span className="access-badge article-access">{entry.visibility}</span>
         <h1>{entry.title}</h1>
         {entry.status === "Legacy" && (
           <span className="legacy-badge article-legacy">Legacy project</span>
@@ -53,7 +54,7 @@ export default async function LibraryEntry({ params }: Props) {
         </section>
       ))}
       <div className="source-list">
-        <h2 className="micro">PUBLIC SOURCES</h2>
+        <h2 className="micro">FURTHER READING</h2>
         <ul>
           {entry.sources.map(([label, url]) => (
             <li key={url}>

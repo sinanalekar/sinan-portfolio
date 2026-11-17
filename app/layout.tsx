@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import localFont from "next/font/local";
 import "./globals.css";
+import "./profile.css";
 import { links } from "./data";
 import Profile from "./profile";
 import Navigation from "./navigation";

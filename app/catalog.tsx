@@ -28,11 +28,13 @@ export default function Catalog({
       (entry) =>
         (topic === "All topics" || entry.topic === topic) &&
         (type === "Everything" ||
-          (type === "Projects"
-            ? entry.kind === "Project"
-            : type === "Legacy"
-              ? entry.status === "Legacy"
-              : entry.kind !== "Project")) &&
+          (type === "Research"
+            ? entry.collection === "Research"
+            : type === "Applications"
+              ? entry.kind === "Project" && entry.collection === "Applications"
+              : type === "Legacy"
+                ? entry.status === "Legacy"
+                : entry.kind !== "Project")) &&
         `${entry.title} ${entry.summary} ${entry.topic} ${entry.kind} ${entry.stack?.join(" ") ?? ""}`
           .toLowerCase()
           .includes(query.trim().toLowerCase()),
@@ -49,7 +51,11 @@ export default function Catalog({
     setType("Everything");
   }
   return (
-    <section className="catalog" aria-label="Research collection">
+    <section
+      id="library-catalog"
+      className="catalog"
+      aria-label="Research collection"
+    >
       <aside className="shelf">
         <h2>Browse by topic</h2>
         {[
@@ -82,8 +88,8 @@ export default function Catalog({
             {mode === "docs"
               ? "Documentation"
               : mode === "projects"
-                ? "Public projects"
-                : "Explore the collection"}
+                ? "Project overviews"
+                : "All projects & notes"}
           </h2>
           <input
             type="search"
@@ -96,18 +102,22 @@ export default function Catalog({
         <div className="catalog-controls">
           {mode === "all" && (
             <div className="catalog-types" role="group" aria-label="Entry type">
-              {["Everything", "Projects", "Notes & docs", "Legacy"].map(
-                (name) => (
-                  <button
-                    key={name}
-                    type="button"
-                    aria-pressed={type === name}
-                    onClick={() => setType(name)}
-                  >
-                    {name}
-                  </button>
-                ),
-              )}
+              {[
+                "Everything",
+                "Research",
+                "Applications",
+                "Notes & docs",
+                "Legacy",
+              ].map((name) => (
+                <button
+                  key={name}
+                  type="button"
+                  aria-pressed={type === name}
+                  onClick={() => setType(name)}
+                >
+                  {name}
+                </button>
+              ))}
             </div>
           )}
           <label className="sort-label">
@@ -141,6 +151,7 @@ export default function Catalog({
             >
               <span className="card-kind">
                 {entry.kind} <span>· {entry.topic}</span>
+                <span className="entry-access">{entry.visibility}</span>
                 {entry.status === "Legacy" && (
                   <span className="legacy-badge">Legacy</span>
                 )}
