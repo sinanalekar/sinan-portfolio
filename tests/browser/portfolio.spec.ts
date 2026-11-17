@@ -487,6 +487,11 @@ test("every project has a working stage map and keyboard walkthrough", async ({
     await page.keyboard.press("ArrowRight");
     await expect(stages.first()).toBeFocused();
     await expect(stages.first()).toHaveAttribute("aria-pressed", "true");
+    await page.keyboard.press("Tab");
+    await expect(stages.nth(1)).toBeFocused();
+    await page.keyboard.press("ArrowRight");
+    await expect(stages.nth(2)).toBeFocused();
+    await expect(stages.nth(2)).toHaveAttribute("aria-pressed", "true");
   }
 });
 test("project gallery browses, expands, copies and opens the selected project", async ({

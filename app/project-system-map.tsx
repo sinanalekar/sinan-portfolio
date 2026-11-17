@@ -56,12 +56,16 @@ export default function ProjectSystemMap({
         onKeyDown={(event) => {
           if (["ArrowRight", "ArrowLeft", "Home", "End"].includes(event.key)) {
             event.preventDefault();
+            const focused = buttons.current.indexOf(
+              event.target as HTMLButtonElement,
+            );
+            const current = focused >= 0 ? focused : active;
             select(
               event.key === "Home"
                 ? 0
                 : event.key === "End"
                   ? system.stages.length - 1
-                  : active + (event.key === "ArrowRight" ? 1 : -1),
+                  : current + (event.key === "ArrowRight" ? 1 : -1),
               true,
             );
           }
