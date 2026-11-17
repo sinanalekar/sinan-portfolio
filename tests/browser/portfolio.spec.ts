@@ -651,25 +651,48 @@ test("click and keyboard activation produce feedback while reduced motion stays 
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/library");
   const toggle = page.locator(".profile-expand");
+  // Observe the short effect at activation; remote browser round trips can outlast it.
+  await toggle.evaluate((node) => {
+    const button = node as HTMLButtonElement & {
+      pressFrames: { animation: string; reduced: boolean }[];
+    };
+    button.pressFrames = [];
+    new MutationObserver(() => {
+      if (button.hasAttribute("data-feedback"))
+        button.pressFrames.push({
+          animation: getComputedStyle(button, "::after").animationName,
+          reduced: matchMedia("(prefers-reduced-motion: reduce)").matches,
+        });
+    }).observe(button, {
+      attributes: true,
+      attributeFilter: ["data-feedback"],
+    });
+  });
+  const frames = () =>
+    toggle.evaluate(
+      (node) =>
+        (
+          node as HTMLButtonElement & {
+            pressFrames: { animation: string; reduced: boolean }[];
+          }
+        ).pressFrames,
+    );
   await toggle.click();
   await expect(toggle).toHaveAttribute("aria-expanded", "true");
-  await expect(toggle).toHaveAttribute("data-feedback", /[ab]/);
   await expect
-    .poll(() =>
-      toggle.evaluate((el) => getComputedStyle(el, "::after").animationName),
-    )
-    .toMatch(/press-wash/);
+    .poll(frames)
+    .toContainEqual({
+      animation: expect.stringMatching(/press-wash/),
+      reduced: false,
+    });
   await expect(toggle).not.toHaveAttribute("data-feedback");
   await page.emulateMedia({ reducedMotion: "reduce" });
   await toggle.focus();
   await page.keyboard.press("Space");
   await expect(toggle).toHaveAttribute("aria-expanded", "false");
-  await expect(toggle).toHaveAttribute("data-feedback", /[ab]/);
-  expect(
-    await toggle.evaluate(
-      (el) => getComputedStyle(el, "::after").animationName,
-    ),
-  ).toBe("none");
+  await expect
+    .poll(frames)
+    .toContainEqual({ animation: "none", reduced: true });
 });
 
 test("toolbox selects real project examples with pointer and keyboard", async ({
