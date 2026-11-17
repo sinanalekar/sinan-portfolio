@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { entries, researchProjects } from "./data";
 import { Arrow } from "./icons";
 import ProjectGallery from "./project-gallery";
@@ -114,7 +115,13 @@ export default function Home() {
         <Link className="secondary-project" href="/library/portfolio">
           <div className="web-preview" aria-hidden="true">
             <div className="mini-sidebar">
-              SA
+              <Image
+                src="/brand-logo.jpg"
+                alt=""
+                width={44}
+                height={44}
+                sizes="44px"
+              />
               <span />
               <span />
               <span />

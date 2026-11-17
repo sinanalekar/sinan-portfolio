@@ -1,4 +1,5 @@
 export const links = {
+  instagram: "https://www.instagram.com/alk.sinan/",
   github: "https://github.com/sinanalekar",
   linkedin: "https://www.linkedin.com/in/sinan-anwar-alekar-90171825a/",
   cyr: "https://github.com/sinanalekar/c-ra",

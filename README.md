@@ -11,6 +11,8 @@ Run `npm test`, `npm run lint`, `npm run typecheck` and `npm run build` to check
 
 Add an entry to `app/data.ts` with a unique slug, topic, kind, collection, visibility, color, summary and article sections. The library, documentation listing and sitemap use this catalog. Link to public source material where useful. Private projects may be included as clearly labelled high-level summaries; keep their source code, raw notes, unpublished findings, report identifiers, and confidential artifacts out of the published content. Publish original personal documents only when the owner explicitly authorizes them.
 
+For a project, add its matching slug to `app/project-systems.ts` with a conceptual flow and plain-language stage explanations. These maps appear in the case study and homepage project gallery. Describe only architecture that is safe to publish; the diagram is an overview, not a live execution of the underlying system.
+
 The repository also supports the worker deployment described in [docs/deployment.md](docs/deployment.md).
 
 ## Browser verification

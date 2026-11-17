@@ -3,8 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { links } from "./data";
-import { Arrow, Mark } from "./icons";
+import { Arrow } from "./icons";
+import SocialLinks from "./social-links";
 export default function Profile() {
   const path = usePathname();
   const [choice, setChoice] = useState<{
@@ -21,7 +21,14 @@ export default function Profile() {
       <div className="profile-card-heading">
         <Link className="profile-name" href="/" aria-label="Sinan Alekar home">
           <span className="brand-mark">
-            <Mark />
+            <Image
+              src="/brand-logo.jpg"
+              alt="@lk.Sinan logo"
+              width={1254}
+              height={1254}
+              priority
+              sizes="80px"
+            />
           </span>
           <span>
             Sinan
@@ -73,21 +80,7 @@ export default function Profile() {
         </div>
       </div>
       <div className="profile-bottom">
-        <div className="profile-links">
-          <a href={links.github}>
-            GitHub <Arrow diagonal />
-          </a>
-          <a href={links.linkedin}>
-            LinkedIn <Arrow diagonal />
-          </a>
-          <a
-            href="/resume.pdf"
-            download="Sinan-Alekar-CV.pdf"
-            aria-label="Download original résumé"
-          >
-            CV <span aria-hidden="true">↓</span>
-          </a>
-        </div>
+        <SocialLinks includeCv />
         <Link className="button primary" href="/contact">
           Let’s work together <Arrow diagonal />
         </Link>

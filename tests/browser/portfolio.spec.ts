@@ -450,3 +450,116 @@ test("private project overviews connect to their related methods notes", async (
     );
   }
 });
+
+test("every project has a working stage map and keyboard walkthrough", async ({
+  page,
+}) => {
+  for (const [slug, title] of [
+    ["cyr", "CYR@"],
+    ["seek", "SEEK"],
+    ["veritas", "VERITAS"],
+    ["hydra", "HYDRA"],
+    ["cyra", "CYRA"],
+    ["mahad-education", "Mahad education initiative"],
+    ["portfolio", "Research portfolio"],
+    ["ix-x", "IX:X"],
+  ]) {
+    await page.goto(`/library/${slug}`);
+    const map = page.locator(".project-system");
+    await expect(map).toBeVisible();
+    const stages = map
+      .getByRole("group", { name: `${title} system stages` })
+      .getByRole("button");
+    await expect(stages).toHaveCount(5);
+    await expect(stages.first()).toHaveAttribute("aria-pressed", "true");
+    const first = await map.locator(".system-story h3").innerText();
+    await map.getByRole("button", { name: "Next stage", exact: true }).click();
+    await expect(stages.nth(1)).toHaveAttribute("aria-pressed", "true");
+    await expect(map.locator(".system-story h3")).not.toHaveText(first);
+    await map
+      .getByRole("button", { name: "Previous stage", exact: true })
+      .click();
+    await expect(stages.first()).toHaveAttribute("aria-pressed", "true");
+    await stages.first().focus();
+    await page.keyboard.press("End");
+    await expect(stages.last()).toBeFocused();
+    await expect(stages.last()).toHaveAttribute("aria-pressed", "true");
+    await page.keyboard.press("ArrowRight");
+    await expect(stages.first()).toBeFocused();
+    await expect(stages.first()).toHaveAttribute("aria-pressed", "true");
+  }
+});
+test("project gallery browses, expands, copies and opens the selected project", async ({
+  page,
+  context,
+}) => {
+  await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+  await page.goto("/");
+  await page
+    .getByRole("button", { name: "Open CYR@ architecture preview" })
+    .click();
+  const dialog = page.getByRole("dialog");
+  await dialog
+    .getByRole("button", { name: "Next project", exact: true })
+    .click();
+  await expect(dialog.locator("#preview-title")).toHaveText("Inside SEEK.");
+  await dialog
+    .getByRole("button", { name: "Expand preview", exact: true })
+    .click();
+  await expect(dialog).toHaveClass(/dialog-wide/);
+  await dialog
+    .getByRole("button", { name: "Restore preview", exact: true })
+    .click();
+  await expect(dialog).not.toHaveClass(/dialog-wide/);
+  await dialog
+    .getByRole("button", { name: "Copy project link", exact: true })
+    .click();
+  await expect(dialog.getByRole("status")).toHaveText(
+    "Project link copied to clipboard",
+  );
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toMatch(
+    /\/library\/seek$/,
+  );
+  await dialog
+    .getByRole("button", { name: "Previous project", exact: true })
+    .click();
+  await expect(dialog.locator("#preview-title")).toHaveText("Inside CYR@.");
+  await dialog.getByRole("link", { name: "Read the case study" }).click();
+  await expect(page).toHaveURL(/\/library\/cyr$/);
+});
+test("brand and social icons use the supplied identity and Instagram profile", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await expect(page.getByRole("img", { name: "@lk.Sinan logo" })).toBeVisible();
+  const social = page.locator(".profile-card .social-links");
+  for (const name of ["GitHub", "LinkedIn", "Instagram"]) {
+    const link = social.getByRole("link", { name, exact: true });
+    await expect(link.locator("svg")).toHaveCount(1);
+    await expect(link).toHaveAttribute("target", "_blank");
+  }
+  await expect(
+    social.getByRole("link", { name: "Instagram", exact: true }),
+  ).toHaveAttribute("href", "https://www.instagram.com/alk.sinan/");
+  await page.goto("/contact");
+  await expect(page.locator(".social-cards a")).toHaveCount(3);
+});
+test("button press provides feedback and carries out its action", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/library");
+  const button = page.getByRole("button", {
+    name: "Expand profile",
+    exact: true,
+  });
+  const box = await button.boundingBox();
+  expect(box).not.toBeNull();
+  await page.mouse.move(box!.x + box!.width / 2, box!.y + box!.height / 2);
+  await page.mouse.down();
+  await expect(button).toHaveCSS("filter", "brightness(0.9)");
+  await page.mouse.up();
+  await expect(
+    page.getByRole("button", { name: "Minimize profile", exact: true }),
+  ).toHaveAttribute("aria-expanded", "true");
+});

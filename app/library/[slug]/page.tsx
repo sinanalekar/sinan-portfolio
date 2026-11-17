@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { entries, relatedNotes } from "../../data";
-import ProjectPreview from "../../project-preview";
+import ProjectSystemMap from "../../project-system-map";
+import { projectSystems } from "../../project-systems";
 
 type Props = { params: Promise<{ slug: string }> };
 export const dynamicParams = false;
@@ -49,7 +50,12 @@ export default async function LibraryEntry({ params }: Props) {
           {entry.rankReason}
         </p>
       )}
-      {entry.slug === "cyr" && <ProjectPreview compact />}
+      {entry.kind === "Project" && (
+        <ProjectSystemMap
+          key={entry.slug}
+          system={projectSystems[entry.slug]}
+        />
+      )}
       {entry.sections.map(([title, copy]) => (
         <section key={title}>
           <h2>{title}</h2>

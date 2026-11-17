@@ -3,7 +3,8 @@ import Link from "next/link";
 import localFont from "next/font/local";
 import "./globals.css";
 import "./profile.css";
-import { links } from "./data";
+import "./interactions.css";
+import SocialLinks from "./social-links";
 import Profile from "./profile";
 import Navigation from "./navigation";
 import Motion from "./motion";
@@ -41,7 +42,10 @@ export const metadata: Metadata = {
   },
   description:
     "Independent security researcher and student building Python tools and web apps. Explore public projects, architecture notes and research methods.",
-  icons: { icon: "/favicon.svg" },
+  icons: {
+    icon: [{ url: "/brand-logo.jpg", type: "image/jpeg" }],
+    apple: "/brand-logo.jpg",
+  },
   openGraph: {
     type: "website",
     siteName: "Sinan Alekar",
@@ -50,10 +54,10 @@ export const metadata: Metadata = {
       "Independent security researcher and student. Python tooling, web apps and public research notes.",
     images: [
       {
-        url: "/social.png",
-        width: 1200,
-        height: 630,
-        alt: "Sinan Alekar — Security research & software",
+        url: "/brand-logo.jpg",
+        width: 1254,
+        height: 1254,
+        alt: "@lk.Sinan logo",
       },
     ],
   },
@@ -96,7 +100,7 @@ export default function RootLayout({
                 </span>
               </span>
               <nav aria-label="Footer">
-                <a href={links.github}>GitHub ↗</a>
+                <SocialLinks variant="footer" />
                 <Link href="/contact">Contact ↗</Link>
                 <Link href="/research">Research ↗</Link>
                 <a href="#main">Back to top ↑</a>

@@ -62,11 +62,7 @@ test("public pages and metadata exclude retired operations brand and inflated ti
       )
     ).flat();
   }
-  for (const path of [
-    ...(await files("app")),
-    "public/social.svg",
-    "public/favicon.svg",
-  ])
+  for (const path of await files("app"))
     if (/\.(tsx?|css|svg)$/.test(path))
       assert.doesNotMatch(
         await read(path),
@@ -88,7 +84,8 @@ test("the exact user-selected CV is hosted independently of Drive", async () => 
 });
 
 test("research summaries exclude removed work and private repository links", async () => {
-  const data = await read("app/data.ts");
+  const data =
+    (await read("app/data.ts")) + "\n" + (await read("app/project-systems.ts"));
   assert.doesNotMatch(
     data,
     /disasters-platform|slug: "disasters"|incident-triage|triage with a human/i,
@@ -103,4 +100,15 @@ test("research summaries exclude removed work and private repository links", asy
   );
   for (const slug of ["cyr", "seek", "veritas", "hydra", "cyra"])
     assert.match(data, new RegExp(`slug: "${slug}"`));
+});
+
+test("the supplied logo is used unchanged", async () => {
+  const { createHash } = await import("node:crypto");
+  const logo = await readFile(new URL("public/brand-logo.jpg", root));
+  assert.equal(
+    createHash("sha256").update(logo).digest("hex"),
+    "c72908d4430a87dca16eaa8406a31591ad6582245c88b01dd17f59e34d4b27f6",
+  );
+  assert.match(await read("app/profile.tsx"), /brand-logo\.jpg/);
+  assert.doesNotMatch(await read("app/profile.tsx"), /\bMark\b/);
 });
