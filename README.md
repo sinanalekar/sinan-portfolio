@@ -1,56 +1,14 @@
-# Sinan Alekar — Portfolio
+# Sinan Alekar · Research Portfolio
 
-Production portfolio for **Sinan Anwar Alekar**, a Computer Engineering Student, Full-Stack Developer, and AI & Cybersecurity Enthusiast.
-
-**Live site:** [sinan-alekar.vercel.app](https://sinan-alekar.vercel.app)
-
-## Highlights
-
-- Original responsive dark/light interface
-- Public project case studies for Sentinental IX and IX:X
-- Embedded, downloadable resume PDF
-- Server-side contact endpoint with Zod validation, honeypot and rate limiting
-- Server-validated contact workflow that opens the visitor's email client
-- Open Graph, structured data, sitemap, robots and web manifest
-- Accessible semantic markup and keyboard-friendly navigation
-
-## Stack
-
-Next.js App Router, TypeScript, React, Tailwind CSS, Vinext and a Vercel-compatible source-control/deployment workflow.
+Public portfolio, research library and documentation built with Next.js.
 
 ## Local development
 
-Requirements: Node.js 22.13 or newer.
+Use Node.js 22.13 or later. Run `npm ci`, then `npm run dev`.
+Run `npm test`, `npm run lint`, `npm run typecheck` and `npm run build` to check changes.
 
-```bash
-npm install
-cp .env.example .env.local
-npm run dev
-```
+## Publishing an entry
 
-The environment file should define `NEXT_PUBLIC_SITE_URL`. Never commit `.env*` files.
+Add an entry to `app/data.ts` with a unique slug, topic, kind, color, summary and article sections. The library, documentation listing and sitemap use this catalog. Link to public source material where useful. Keep private repositories, unpublished findings and personal contact information out of the catalog and résumé page.
 
-## Checks
-
-```bash
-npm run lint
-npx tsc --noEmit
-npm test
-npm run build
-```
-
-## Content updates
-
-- Core portfolio content: `app/data.ts`
-- Page content: `app/**/page.tsx`
-- Resume: replace `public/resume.pdf` without changing the filename
-- Social preview: replace `public/og.png`
-- Visual system: `app/globals.css`
-
-## Deployment
-
-See [`docs/deployment.md`](docs/deployment.md). The project intentionally contains no visitor PIN or admin panel; project details are public.
-
-## License
-
-MIT © 2026 Sinan Anwar Alekar.
+The repository also supports the worker deployment described in [docs/deployment.md](docs/deployment.md).

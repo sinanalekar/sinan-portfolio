@@ -1,4 +1,10 @@
-import type { Metadata } from "next";
-import { links, skills } from "../data";
-export const metadata:Metadata={title:"Resume",description:"Resume of Sinan Anwar Alekar, Computer Engineering student and Full-Stack Developer."};
-export default function Resume(){return <><section className="page-hero"><div className="shell"><span className="eyebrow">Resume</span><h1>Experience, education and technical capabilities.</h1><p>View the current resume in the browser or download the original selectable, ATS-friendly PDF.</p></div></section><section className="section"><div className="shell"><div className="resume-panel"><div className="resume-actions"><div><strong>Sinan Anwar Alekar — Resume</strong><p className="form-status">PDF · selectable text · external links retained</p></div><div className="actions"><a className="button" href="/resume.pdf" target="_blank">View PDF ↗</a><a className="button primary" href="/resume.pdf" download="Sinan-Anwar-Alekar-Resume.pdf">Download PDF</a></div></div><object className="resume-frame" data="/resume.pdf" type="application/pdf"><p>Your browser cannot display the PDF. <a href="/resume.pdf">Open the resume</a>.</p></object></div></div></section><section className="section alt"><div className="shell split"><div><span className="eyebrow">At a glance</span><h2>Core profile</h2><p className="lead">B.Tech Computer Engineering student with freelance technical support experience and independently developed full-stack products.</p><div className="contact-list"><a href={links.email}>Email ↗</a><a href={links.github}>GitHub ↗</a><a href={links.linkedin}>LinkedIn ↗</a></div></div><div className="skill-list">{skills.slice(0,5).map(([n,v])=><div key={n}><b>{n}</b><p>{v}</p></div>)}</div></div></section></>}
+export const metadata = { title: "Résumé" };
+export default function Resume() {
+  return <article className="reading">
+    <div className="page-intro"><p className="eyebrow">Portfolio / Résumé</p><h1>Résumé</h1><p>Sinan Anwar Alekar · Independent security researcher and student</p></div>
+    <section><h2>Independent research</h2><p>Application authorization, browser and Android security, controlled testing, Python research tooling and coordinated vulnerability disclosure.</p></section>
+    <section><h2>Freelance work</h2><p>Technical support and online research in 2023. Diagnosed Windows, Android and web application issues and wrote support documentation.</p></section>
+    <section><h2>Education</h2><p>BS–MS in Artificial Intelligence and Cybersecurity at IIT Patna, pursuing. B.Tech in Computer Engineering, pursuing.</p></section>
+    <section><h2>Technical skills</h2><p>Python, TypeScript, React, Next.js, FastAPI, SQL, Git and Docker.</p></section>
+  </article>;
+}

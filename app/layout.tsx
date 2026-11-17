@@ -1,43 +1,31 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import Link from "next/link";
 import "./globals.css";
-import { Footer, Header } from "./ui";
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-});
-
-const mono = JetBrains_Mono({
-  variable: "--font-mono",
-  subsets: ["latin"],
-});
+import { links } from "./data";
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://sinan-alekar.vercel.app"),
-  title: { default: "Sinan Anwar Alekar | Full-Stack Developer", template: "%s | Sinan Alekar" },
-  description: "Portfolio of Sinan Anwar Alekar, a computer engineering student building full-stack, AI-assisted and defensive cybersecurity applications.",
-  icons: {
-    icon: "/favicon.svg",
-    shortcut: "/favicon.svg",
-  },
-  openGraph: { title: "Sinan Anwar Alekar", description: "Full-Stack Developer · AI & Cybersecurity Enthusiast", images: ["https://sinan-alekar-analystx9.vercel.app/og-portfolio.png"], type: "website" },
-  twitter: { card: "summary_large_image", images: ["https://sinan-alekar-analystx9.vercel.app/og-portfolio.png"] },
+  title: { default: "Sinan Anwar Alekar · Research Portfolio", template: "%s · Sinan Alekar" },
+  description: "Independent security research, student projects and documentation by Sinan Anwar Alekar.",
+  icons: { icon: "/favicon.svg" },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head><script dangerouslySetInnerHTML={{__html:"try{document.documentElement.dataset.theme=localStorage.getItem('theme')||'dark'}catch(e){document.documentElement.dataset.theme='dark'}"}} /></head>
-      <body className={`${inter.variable} ${mono.variable}`}>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{__html: JSON.stringify({"@context":"https://schema.org","@type":"Person",name:"Sinan Anwar Alekar",jobTitle:"Computer Engineering Student and Full-Stack Developer",url:process.env.NEXT_PUBLIC_SITE_URL||"https://sinan-alekar.vercel.app",sameAs:["https://github.com/sinanalekar","https://linkedin.com/in/sinan-alekar-90171825a"],knowsAbout:["Full-stack development","Artificial Intelligence","Defensive Cybersecurity","Android","FastAPI","React","Next.js","Firebase","PostgreSQL"]})}} />
-        <Header />
-        <main>{children}</main>
-        <Footer />
+    <html lang="en">
+      <body>
+        <a className="skip" href="#main">Skip to content</a>
+        <header className="top"><div className="shell top-inner">
+          <Link className="brand" href="/"><span aria-hidden="true">S</span> Sinan Alekar</Link>
+          <nav aria-label="Primary">
+            <Link href="/library">Library</Link><Link href="/docs">Docs</Link>
+            <Link href="/about">About</Link><Link href="/resume">Résumé</Link>
+          </nav>
+        </div></header>
+        <main id="main" className="shell">{children}</main>
+        <footer className="shell footer"><span>Sinan Anwar Alekar · India</span><nav aria-label="Elsewhere">
+          <a href={links.github}>GitHub ↗</a><a href={links.linkedin}>LinkedIn ↗</a><Link href="/contact">Contact</Link>
+        </nav></footer>
       </body>
     </html>
   );
