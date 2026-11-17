@@ -350,3 +350,12 @@ test("recommended reading order expands without hiding the search controls", asy
   await page.getByText("Why this reading order?", { exact: true }).click();
   await expect(page.getByRole("searchbox")).toBeVisible();
 });
+test("existing project case-study URLs lead to their current articles", async ({
+  page,
+}) => {
+  await page.goto("/projects/ix-x/details");
+  await expect(page).toHaveURL(/\/library\/ix-x$/);
+  await expect(page.locator(".article-legacy")).toHaveText("Legacy project");
+  await page.goto("/projects/cyr/details");
+  await expect(page).toHaveURL(/\/library\/cyr$/);
+});
