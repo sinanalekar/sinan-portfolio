@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import "./globals.css";
 import { links } from "./data";
+import Theme from "./theme";
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://sinan-alekar.vercel.app"),
@@ -12,14 +13,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head><script dangerouslySetInnerHTML={{ __html: "try{document.documentElement.dataset.theme=localStorage.getItem('portfolio-theme')||'dark'}catch{}" }} /></head>
       <body>
         <a className="skip" href="#main">Skip to content</a>
         <header className="top"><div className="shell top-inner">
           <Link className="brand" href="/"><span aria-hidden="true">S</span> Sinan Alekar</Link>
           <nav aria-label="Primary">
             <Link href="/library">Library</Link><Link href="/docs">Docs</Link>
-            <Link href="/about">About</Link><Link href="/resume">Résumé</Link>
+            <Link href="/about">About</Link><Link href="/resume">Résumé</Link><Theme />
           </nav>
         </div></header>
         <main id="main" className="shell">{children}</main>
