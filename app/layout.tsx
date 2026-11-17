@@ -6,6 +6,7 @@ import { links } from "./data";
 import Profile from "./profile";
 import Navigation from "./navigation";
 import Motion from "./motion";
+import ReadingProgress from "./reading-progress";
 
 const sans = localFont({
   src: [
@@ -63,17 +64,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" data-theme="light" suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{
             __html:
-              "try{const t=localStorage.getItem('portfolio-theme');document.documentElement.dataset.theme=t==='light'?'light':'dark'}catch{}",
+              "try{const t=localStorage.getItem('portfolio-theme');document.documentElement.dataset.theme=t==='dark'?'dark':'light'}catch{}",
           }}
         />
       </head>
       <body className={`${sans.variable} ${display.variable}`}>
         <Motion />
+        <ReadingProgress />
         <a className="skip" href="#main">
           Skip to content
         </a>
@@ -95,6 +97,7 @@ export default function RootLayout({
               <nav aria-label="Footer">
                 <a href={links.github}>GitHub ↗</a>
                 <Link href="/contact">Contact ↗</Link>
+                <Link href="/research">Research ↗</Link>
                 <a href="#main">Back to top ↑</a>
               </nav>
             </footer>

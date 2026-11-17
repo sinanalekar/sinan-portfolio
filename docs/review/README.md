@@ -1,31 +1,38 @@
 # Portfolio redesign review
 
-The live reference was https://mixdesign.dev/themeforest/braxton/index-svg.html (the supplied Google share link), alongside the supplied recording frames. The live browser review exercised section navigation and active states, scrolling, project hover and gallery opening/closing, the theme switch, and the mobile layout.
+The live reference is https://mixdesign.dev/themeforest/braxton/index-svg.html (the supplied Google share link), alongside the supplied frames. The live browser review was repeated for this revision and exercised section navigation/active states, scrolling, project hover/gallery opening/closing, theme switching, and mobile layout.
 
-The adaptation keeps the tall desktop profile rail and low-set opening headline, uses locally hosted Syne headings, and replaces the reference portrait with an original SA monogram. The homepage gives the public CYR@ project the main visual space, follows with a smaller portfolio case study, and uses text rows for reading notes. Mobile has a compact profile, bottom navigation dock, and horizontally scrolling Library filters.
+The adaptation keeps the tall desktop profile rail and low-set headline, uses locally hosted Syne headings, and replaces the reference portrait with an original SA monogram. It gives the public CYR@ project the main visual space, follows with a smaller portfolio case study, and uses text rows for reading notes and other projects. Mobile has a compact profile, bottom navigation dock, and horizontally scrolling Library filters.
 
-## Interaction review
+## Final behavior
 
-- Desktop profile and navigation stay in view. Homepage navigation tracks the work/about sections; the existing standalone routes remain available.
-- The sphere drifts subtly, the circular scroll cue rotates, and content enters when it reaches the viewport. Reduced motion removes those effects and smooth scrolling. Content remains visible without JavaScript.
-- The CYR@ architecture preview opens a native modal dialog. Escape closes it, focus returns to the trigger, and visitors can continue to the case study or public source.
-- Search combines with topic filters. No-result views offer a clear/reset action; filter buttons work with keyboard or touch.
-- Theme selection persists. Résumé supports print/save PDF with a dedicated print stylesheet.
-- Contact validation prepares an explicit email draft link. The site sends and stores no message; opening a local email application depends on the visitor’s configured mail handler.
+- Light is the default on a fresh visit and before JavaScript runs; an explicitly selected dark theme persists.
+- The Library has ten entries: five projects and five documentation/methods entries. Search combines with topic/type filters, a legacy view, and recommended/alphabetical ordering. Recommended projects carry editorial positions and a reading rationale, not performance scores.
+- The suggested order is CYR@ → Disasters → Mahad education initiative → portfolio → IX:X. It prioritizes current work, implementation depth, and inspectable public source. IX:X is explicitly a legacy project described in the public profile; no private repository is exposed.
+- The recommended reading rationale expands on demand, keeping mobile search near the opening content. Research disclosure scope also expands with keyboard-accessible native controls.
+- Desktop profile/navigation stay in view. Homepage navigation tracks work/about sections; existing standalone routes remain available. A reading-progress indicator follows page position.
+- The sphere drifts subtly, the circular scroll cue rotates, and content enters when it reaches the viewport. Reduced motion removes animation and smooth scrolling. Content remains visible without JavaScript.
+- CYR@ opens a native preview dialog. Escape closes it, focus returns to the trigger, and visitors can continue to the case study or public source.
+- The original two-page CV selected from the user’s second Drive link is served at `/resume.pdf` and downloaded as `Sinan-Alekar-CV.pdf`. It is unchanged, independently hosted, and does not depend on Drive access. SHA-256: `4a384a871a84660057f48da2127cec229cad198027541d80e1af41f5f22f9736`. The web résumé remains a separate, updated presentation.
+- Contact validation prepares an explicit email draft link. The site sends and stores no message; opening a local email application depends on the visitor’s mail handler.
 
-## Content sources
+## Content provenance
 
-- Existing public portfolio at `ef34463`: education, freelance technical support/online research, skill list, and the existing general methods note. The unverified freelance year was removed. Education, freelance work, and independent projects are presented separately.
-- Public `sinanalekar/c-ra` at `2dda55e764420a020016c09cd4d3e04ad981993e`: README architecture, `environment/capabilities.py`, and `environment/tasks.py`. Case studies link directly to those sources and describe implementation scope rather than asserting an independent audit or research outcomes.
-- The portfolio project links to its public route, catalog, and content implementations. No private repositories, target details, reports, personal documents, portrait, metrics, founder titles, or new biographical dates were added.
-- Syne and DM Sans are locally hosted with their OFL licenses. Reference template code and artwork are not included.
+- Existing public portfolio `ef34463`: independent/student positioning, education, freelance support/research, skills, and the general methods note. Education, freelance work, and independent projects remain separate. No new freelance dates were inferred.
+- Public `sinanalekar/c-ra` at `2dda55e764420a020016c09cd4d3e04ad981993e`: README architecture, capabilities module, and task recovery implementation.
+- Public `sinanalekar/disasters-platform` at `38c236b0cc59f976260d0153edbf2a505a5619c9`: reporting/operations architecture, deterministic triage implementation, and tests. The case study does not imply real-world authority adoption.
+- Public `sinanalekar/mahad-professional-education` at `f13a53d904a402b7fd0ac7d1557e6eea6cb8d8c7`: participant verification, consent, representation builder, and queue behavior. No participant records or unsupported approval claims are included.
+- Public profile at `66004605c3a6aafce91500fbd165fc2cf5065020`: legacy IX:X description and earlier education. The user explicitly requested reinstating IX:X as legacy work.
+- Apple/Xiaomi history uses the user’s supplied CV and status update. It is visibly labelled researcher-reported, links to that CV, and withholds report identifiers and reproduction details. It does not present these summaries as independently verified public vendor advisories.
+- The user specifically requested an unchanged original CV. Its contents remain the user-authored document; the site does not extract its private-project descriptions or metrics into Library case studies.
+- Syne and DM Sans are locally hosted with OFL licenses. Reference template code and artwork are not included.
 
 ## Verification
 
-Production-mode Chromium checks cover all 12 main/content routes in desktop dark, desktop light, and mobile dark modes; widths 320–1920; Library search and filters; empty-state recovery; keyboard and focus behavior; modal opening/closing; persisted themes; reduced motion; and the contact UI/API flow. Axe scans cover home, Library, résumé, contact, and the dialog in both themes. Project checks: `npm test`, `npm run lint`, `npm run typecheck`, `npm run build`, `npm run test:e2e`.
+Production-mode Chromium checks cover all 18 main/content routes in desktop dark/light and mobile dark; widths 320–1920; search/filter combinations; ranking and alphabetical order; legacy navigation; no-result recovery; keyboard/focus behavior; the preview dialog; persisted and no-JavaScript themes; reduced motion; consent-scope expansion; contact UI/API; and the CV download’s exact hash. Axe scans cover home, Library, résumé, research, contact, and the dialog in both themes. Project commands: `npm test`, `npm run lint`, `npm run typecheck`, `npm run build`, and `npm run test:e2e`.
 
-Screenshots are from the production build at 1440×900 and 390×844, with reduced motion enabled for stable captures. A second visual pass corrected font loading, headline proportions, mobile wrapping, navigation placement, and the light-theme glow after direct comparison with the live reference.
+Screenshots are from the production build at 1440×900 and 390×844, with reduced motion enabled for stable captures. Direct visual comparison led to another pass on heading wrapping, the light glow, mobile search placement, and disclosure-summary layout.
 
 Production is intentionally unchanged. This branch is for preview and review only.
 
-Final results: 4 content tests and 13 browser tests passed locally; all 13 browser tests also passed against the hosted Vercel preview. Lint, type checking, and the production build passed. The legacy project URL redirects to `/projects`, unknown Library entries return 404, and the production alias was checked separately and still points to its original deployment.
+Local results: 17 browser tests and five content tests passed. Lint, type checking, and the production build passed.

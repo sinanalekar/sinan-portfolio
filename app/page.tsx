@@ -49,6 +49,13 @@ export default function Home() {
             <Link className="text-link" href="/resume">
               View résumé <Arrow diagonal />
             </Link>
+            <a
+              className="text-link hero-download"
+              href="/resume.pdf"
+              download="Sinan-Alekar-CV.pdf"
+            >
+              Download CV ↓
+            </a>
           </div>
         </div>
         <a
@@ -140,6 +147,75 @@ export default function Home() {
             </span>
           </div>
         </Link>
+      </section>
+      <section className="home-section discovery-section">
+        <div className="section-heading">
+          <div>
+            <p className="eyebrow">More from the workbench</p>
+            <h2>
+              Software with
+              <br />a public purpose.
+            </h2>
+          </div>
+          <Link className="text-link" href="/library">
+            Explore the Library <Arrow diagonal />
+          </Link>
+        </div>
+        <div className="discovery-list">
+          <Link href="/library/disasters">
+            <span className="discovery-number">02</span>
+            <div>
+              <span className="micro">WEB / PWA / ANDROID</span>
+              <h3>Disasters platform</h3>
+              <p>Reporting, triage, and incident workflows.</p>
+            </div>
+            <Arrow diagonal />
+          </Link>
+          <Link href="/library/mahad-education">
+            <span className="discovery-number">03</span>
+            <div>
+              <span className="micro">CIVIC WEB APPLICATION</span>
+              <h3>Mahad education initiative</h3>
+              <p>Verified participation and explicit consent.</p>
+            </div>
+            <Arrow diagonal />
+          </Link>
+          <Link href="/library/ix-x">
+            <span className="discovery-number">05</span>
+            <div>
+              <span className="micro">LEGACY PROJECT</span>
+              <h3>IX:X learning app</h3>
+              <p>An earlier Android, web, and PWA project.</p>
+            </div>
+            <Arrow diagonal />
+          </Link>
+        </div>
+      </section>
+      <section className="home-section research-feature">
+        <p className="eyebrow">Independent research</p>
+        <div className="section-heading">
+          <h2>
+            Following the evidence.
+            <br />
+            <span className="muted">Following up, carefully.</span>
+          </h2>
+          <Link className="text-link" href="/research">
+            Research history <Arrow diagonal />
+          </Link>
+        </div>
+        <div className="research-summary">
+          <div>
+            <span className="micro">APPLE</span>
+            <strong>Investigation ongoing</strong>
+          </div>
+          <div>
+            <span className="micro">XIAOMI / HACKERONE</span>
+            <strong>Triaged & confirmed</strong>
+          </div>
+        </div>
+        <p className="research-attribution">
+          Researcher-reported statuses. Technical report details remain private.
+        </p>
       </section>
       <section className="home-section" id="about">
         <p className="eyebrow">02 / The approach</p>

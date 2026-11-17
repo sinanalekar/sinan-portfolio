@@ -27,8 +27,24 @@ export default async function LibraryEntry({ params }: Props) {
           {entry.kind} / {entry.topic}
         </p>
         <h1>{entry.title}</h1>
+        {entry.status === "Legacy" && (
+          <span className="legacy-badge article-legacy">Legacy project</span>
+        )}
         <p>{entry.summary}</p>
       </div>
+      {entry.stack && (
+        <ul className="project-stack" aria-label="Technologies">
+          {entry.stack.map((tool) => (
+            <li key={tool}>{tool}</li>
+          ))}
+        </ul>
+      )}
+      {entry.rankReason && (
+        <p className="rank-context">
+          <span className="micro">READING ORDER / 0{entry.rank}</span>
+          {entry.rankReason}
+        </p>
+      )}
       {entry.slug === "cyr" && <ProjectPreview compact />}
       {entry.sections.map(([title, copy]) => (
         <section key={title}>

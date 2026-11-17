@@ -8,11 +8,17 @@ const routes = [
   "/about",
   "/resume",
   "/contact",
+  "/research",
   "/library/cyr",
   "/library/portfolio",
   "/library/permissions",
   "/library/checkpoints",
   "/library/evidence",
+  "/library/disasters",
+  "/library/mahad-education",
+  "/library/ix-x",
+  "/library/incident-triage",
+  "/library/participant-consent",
 ];
 for (const scenario of [
   { name: "desktop dark", width: 1440, theme: "dark" },
@@ -44,7 +50,7 @@ for (const scenario of [
         route,
       ).toBeTruthy();
       expect(await page.locator("body").innerText()).not.toMatch(
-        /sent[ie]n[et]+al\s*ix|ix\s*[:：]\s*x|founder|\b2023\b/i,
+        /sent[ie]n[et]+al\s*ix|founder/i,
       );
     }
     expect(errors).toEqual([]);
@@ -54,7 +60,7 @@ test("Library combines search and topic filters and recovers from no results", a
   page,
 }) => {
   await page.goto("/library");
-  await expect(page.getByRole("status")).toHaveText("5 entries");
+  await expect(page.getByRole("status")).toHaveText("10 entries");
   await page.getByRole("button", { name: "Security", exact: false }).click();
   await expect(page.getByRole("status")).toHaveText("1 entry");
   await expect(page.locator(".card h3")).toHaveText(["Tool permissions"]);
@@ -63,7 +69,7 @@ test("Library combines search and topic filters and recovers from no results", a
     .fill("checkpoints");
   await expect(page.getByRole("status")).toHaveText("0 entries");
   await page.getByRole("button", { name: "Clear search and filters" }).click();
-  await expect(page.getByRole("status")).toHaveText("5 entries");
+  await expect(page.getByRole("status")).toHaveText("10 entries");
   await page.getByRole("searchbox").fill("  LOCAL DESKTOP  ");
   await expect(page.locator(".card h3")).toHaveText(["CYR@"]);
   await page.locator(".card").click();
@@ -72,9 +78,9 @@ test("Library combines search and topic filters and recovers from no results", a
     page.getByRole("link", { name: "Permission implementation" }),
   ).toHaveAttribute("href", /2dda55e.*capabilities.py$/);
   await page.goto("/docs");
-  await expect(page.locator(".card")).toHaveCount(3);
+  await expect(page.locator(".card")).toHaveCount(5);
   await page.goto("/projects");
-  await expect(page.locator(".card")).toHaveCount(2);
+  await expect(page.locator(".card")).toHaveCount(5);
 });
 test("narrow Library filters remain reachable with touch and keyboard", async ({
   page,
@@ -127,11 +133,12 @@ test("theme persists and skip link reaches the main content", async ({
   ).toBeFocused();
   await page.keyboard.press("Enter");
   await expect(page.locator("main")).toBeFocused();
-  await page.getByRole("button", { name: "Switch to light theme" }).click();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+  await page.getByRole("button", { name: "Switch to dark theme" }).click();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
   await page.reload();
   await expect(
-    page.getByRole("button", { name: "Switch to dark theme" }),
+    page.getByRole("button", { name: "Switch to light theme" }),
   ).toBeVisible();
 });
 test("section navigation tracks scroll and reduced motion disables animation", async ({
@@ -170,7 +177,7 @@ for (const theme of ["dark", "light"])
       theme,
     );
     await page.emulateMedia({ reducedMotion: "reduce" });
-    for (const route of ["/", "/library", "/resume", "/contact"]) {
+    for (const route of ["/", "/library", "/resume", "/contact", "/research"]) {
       await page.goto(route);
       const results = await new AxeBuilder({ page })
         .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
@@ -229,7 +236,7 @@ test("responsive layout at boundary widths", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   for (const width of [320, 360, 760, 768, 960, 1024, 1280, 1920]) {
     await page.setViewportSize({ width, height: 900 });
-    for (const route of ["/", "/library", "/resume"]) {
+    for (const route of ["/", "/library", "/resume", "/research"]) {
       await page.goto(route);
       expect(
         await page.evaluate(
@@ -258,4 +265,88 @@ test("contact form completes the browser-to-API preparation flow", async ({
   await page.getByRole("button", { name: "Prepare email" }).click();
   expect((await response).status()).toBe(200);
   await expect(page.getByRole("status")).toContainText("Your message is ready");
+});
+
+test("Library ranking, alphabetical order, type controls and legacy entry", async ({
+  page,
+}) => {
+  await page.goto("/library");
+  await expect(page.locator(".card h3")).toHaveText([
+    "CYR@",
+    "Disasters",
+    "Mahad education initiative",
+    "Research portfolio",
+    "IX:X",
+    "Tool permissions",
+    "Task checkpoints",
+    "Triage with a human decision point",
+    "Consent before submission",
+    "Writing a useful evidence record",
+  ]);
+  await page
+    .getByRole("group", { name: "Entry type" })
+    .getByRole("button", { name: "Projects", exact: true })
+    .click();
+  await expect(page.getByRole("status")).toHaveText("5 entries");
+  await page.getByLabel("Sort entries").selectOption("az");
+  await expect(page.locator(".card h3")).toHaveText([
+    "CYR@",
+    "Disasters",
+    "IX:X",
+    "Mahad education initiative",
+    "Research portfolio",
+  ]);
+  await page.getByRole("button", { name: "Legacy", exact: true }).click();
+  await expect(page.getByRole("status")).toHaveText("1 entry");
+  await page.locator(".card").click();
+  await expect(page).toHaveURL(/\/library\/ix-x$/);
+  await expect(page.locator(".article-legacy")).toHaveText("Legacy project");
+});
+test("CV download is the selected original PDF and research scope expands", async ({
+  page,
+}) => {
+  const { createHash } = await import("node:crypto");
+  const { readFile } = await import("node:fs/promises");
+  await page.goto("/resume");
+  const downloadEvent = page.waitForEvent("download");
+  await page.getByRole("link", { name: "Download CV" }).click();
+  const download = await downloadEvent;
+  expect(download.suggestedFilename()).toBe("Sinan-Alekar-CV.pdf");
+  const path = await download.path();
+  expect(path).toBeTruthy();
+  expect(
+    createHash("sha256")
+      .update(await readFile(path!))
+      .digest("hex"),
+  ).toBe("4a384a871a84660057f48da2127cec229cad198027541d80e1af41f5f22f9736");
+  await page.goto("/research");
+  await expect(
+    page.getByText("Researcher-reported statuses.", { exact: false }),
+  ).toBeVisible();
+  await page.locator("#xiaomi summary").click();
+  await expect(page.locator("#xiaomi details")).toHaveAttribute("open", "");
+});
+test("light theme also renders before JavaScript runs", async ({ browser }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false });
+  const page = await context.newPage();
+  await page.goto(process.env.BASE_URL || "http://127.0.0.1:3001");
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+  await expect(page.locator("body")).toHaveCSS(
+    "background-color",
+    "rgb(246, 244, 247)",
+  );
+  await context.close();
+});
+
+test("recommended reading order expands without hiding the search controls", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/library");
+  await expect(page.locator(".library-picks")).not.toHaveAttribute("open", "");
+  await page.getByText("Why this reading order?", { exact: true }).click();
+  await expect(page.locator(".picks-list>a")).toHaveCount(3);
+  await expect(page.locator(".picks-list")).toBeVisible();
+  await page.getByText("Why this reading order?", { exact: true }).click();
+  await expect(page.getByRole("searchbox")).toBeVisible();
 });

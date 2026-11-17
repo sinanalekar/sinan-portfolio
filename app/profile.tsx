@@ -48,6 +48,13 @@ export default function Profile() {
           <a href={links.linkedin}>
             LinkedIn <Arrow diagonal />
           </a>
+          <a
+            href="/resume.pdf"
+            download="Sinan-Alekar-CV.pdf"
+            aria-label="Download original résumé"
+          >
+            CV <span aria-hidden="true">↓</span>
+          </a>
         </div>
         <Link className="button primary" href="/contact">
           Let’s work together <Arrow diagonal />

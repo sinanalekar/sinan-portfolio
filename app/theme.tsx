@@ -9,10 +9,10 @@ function subscribe(listener: () => void) {
   };
 }
 function currentTheme() {
-  return document.documentElement.dataset.theme || "dark";
+  return document.documentElement.dataset.theme || "light";
 }
 export default function Theme() {
-  const theme = useSyncExternalStore(subscribe, currentTheme, () => "dark");
+  const theme = useSyncExternalStore(subscribe, currentTheme, () => "light");
   function toggle() {
     const next = currentTheme() === "dark" ? "light" : "dark";
     document.documentElement.dataset.theme = next;

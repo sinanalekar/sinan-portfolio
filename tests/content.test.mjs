@@ -36,7 +36,7 @@ test("the published catalog has unique routes and excludes retired project claim
   ]) {
     assert.doesNotMatch(
       await read(path),
-      /Sentinental IX|IX:X|Founder & Lead Developer/,
+      /Sentinental IX|Founder & Lead Developer/,
     );
   }
 });
@@ -48,7 +48,7 @@ test("visitor PIN and admin systems are absent", async () => {
   await assert.rejects(access(new URL("app/unlock", root)));
 });
 
-test("public pages and metadata exclude retired brands, titles and unsupported years", async () => {
+test("public pages and metadata exclude retired operations brand and inflated titles", async () => {
   const { readdir } = await import("node:fs/promises");
   async function files(dir) {
     const items = await readdir(new URL(dir, root), { withFileTypes: true });
@@ -70,7 +70,19 @@ test("public pages and metadata exclude retired brands, titles and unsupported y
     if (/\.(tsx?|css|svg)$/.test(path))
       assert.doesNotMatch(
         await read(path),
-        /sent[ie]n[et]+al\s*ix|ix\s*[:：]\s*x|founder|\b2023\b/i,
+        /sent[ie]n[et]+al\s*ix|founder/i,
         path,
       );
+});
+
+test("the exact user-selected CV is hosted independently of Drive", async () => {
+  const { createHash } = await import("node:crypto");
+  const pdf = await readFile(new URL("public/resume.pdf", root));
+  assert.equal(pdf.subarray(0, 5).toString(), "%PDF-");
+  assert.equal(
+    createHash("sha256").update(pdf).digest("hex"),
+    "4a384a871a84660057f48da2127cec229cad198027541d80e1af41f5f22f9736",
+  );
+  assert.match(await read("app/resume/page.tsx"), /href="\/resume.pdf"/);
+  assert.doesNotMatch(await read("app/resume/page.tsx"), /drive.google/);
 });

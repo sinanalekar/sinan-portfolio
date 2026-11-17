@@ -32,11 +32,23 @@ export default function About() {
         </p>
       </section>
       <section>
+        <h2>Research reporting</h2>
+        <p>
+          I’ve reported reproducible bugs to Apple and a Xiaomi bug through
+          HackerOne. My research history distinguishes my own status updates
+          from publicly acknowledged outcomes.{" "}
+          <Link className="text-link" href="/research">
+            Read the history ↗
+          </Link>
+        </p>
+      </section>
+      <section>
         <h2>Education</h2>
         <p>
           I’m pursuing a BS–MS in Artificial Intelligence and Cybersecurity at
-          IIT Patna and a B.Tech in Computer Engineering. My studies and
-          independent projects are distinct from my freelance work.
+          IIT Patna and a B.Tech in Computer Engineering. My earlier education
+          includes HSC Science at Bal Sanskar Vidya Mandir and SSC at Samarth
+          Ramdas Vidyalaya in the Mahad area.
         </p>
       </section>
       <section>
