@@ -4,11 +4,13 @@ import localFont from "next/font/local";
 import "./globals.css";
 import "./profile.css";
 import "./interactions.css";
+import "./navigation.css";
 import SocialLinks from "./social-links";
 import Profile from "./profile";
 import Navigation from "./navigation";
 import Motion from "./motion";
 import ReadingProgress from "./reading-progress";
+import PressFeedback from "./press-feedback";
 
 const sans = localFont({
   src: [
@@ -81,6 +83,7 @@ export default function RootLayout({
       <body className={`${sans.variable} ${display.variable}`}>
         <Motion />
         <ReadingProgress />
+        <PressFeedback />
         <a className="skip" href="#main">
           Skip to content
         </a>

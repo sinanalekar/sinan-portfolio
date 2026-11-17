@@ -47,6 +47,7 @@ export default function Theme() {
           <path d="M20.5 14A8.5 8.5 0 0 1 10 3.5 8.5 8.5 0 1 0 20.5 14Z" />
         )}
       </svg>
+      <span className="theme-label">Theme</span>
     </button>
   );
 }

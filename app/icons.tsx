@@ -1,6 +1,7 @@
 export function Arrow({ diagonal = false }: { diagonal?: boolean }) {
   return (
     <svg
+      className={`arrow-icon${diagonal ? " arrow-diagonal" : ""}`}
       aria-hidden="true"
       width="18"
       height="18"

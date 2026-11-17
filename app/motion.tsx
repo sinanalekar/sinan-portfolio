@@ -7,7 +7,7 @@ export default function Motion() {
     const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
     if (preference.matches) return;
     const nodes = document.querySelectorAll(
-      ".home-section .section-heading, .home-section>h2, .featured-visual, .project-caption, .secondary-project, .reading-list>a, .about-split, .tool-line, .contact-bottom, .discovery-list>a, .research-summary",
+      ".home-section .section-heading, .home-section>h2, .featured-visual, .project-caption, .secondary-project, .reading-list>a, .about-split, .toolbox, .contact-bottom, .discovery-list>a, .research-summary",
     );
     const observer = new IntersectionObserver(
       (records) => {

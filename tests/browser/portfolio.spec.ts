@@ -206,6 +206,18 @@ for (const theme of ["dark", "light"])
           .analyze()
       ).violations,
     ).toEqual([]);
+    await page
+      .getByRole("button", { name: "Close architecture preview" })
+      .click();
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.getByRole("button", { name: "More pages", exact: true }).click();
+    expect(
+      (
+        await new AxeBuilder({ page })
+          .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
+          .analyze()
+      ).violations,
+    ).toEqual([]);
   });
 test("contact endpoint validates and prepares email without sending", async ({
   page,
@@ -567,4 +579,182 @@ test("button press provides feedback and carries out its action", async ({
   await expect(
     page.getByRole("button", { name: "Minimize profile", exact: true }),
   ).toHaveAttribute("aria-expanded", "true");
+});
+
+test("mobile dock keeps Contact visible with usable touch targets", async ({
+  page,
+}) => {
+  for (const width of [320, 390, 760]) {
+    await page.setViewportSize({ width, height: 844 });
+    await page.goto("/library");
+    const header = page.getByRole("banner");
+    const contact = header.getByRole("link", { name: "Contact", exact: true });
+    await expect(contact).toBeVisible();
+    await expect(contact).toHaveAttribute("href", "/contact");
+    for (const control of await header
+      .locator("a:visible, button:visible")
+      .all()) {
+      const box = await control.boundingBox();
+      expect(box!.width).toBeGreaterThanOrEqual(44);
+      expect(box!.height).toBeGreaterThanOrEqual(44);
+    }
+    await contact.click();
+    await expect(page).toHaveURL(/\/contact$/);
+    await expect(contact).toHaveAttribute("aria-current", "page");
+    await expect(
+      page.getByRole("button", { name: "Prepare email" }),
+    ).toBeVisible();
+  }
+});
+
+test("mobile More menu reaches secondary pages, traps focus, and closes with Escape", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+  const more = page.getByRole("button", { name: "More pages", exact: true });
+  await more.click();
+  const menu = page.getByRole("dialog", { name: "Explore the portfolio." });
+  await expect(menu).toBeVisible();
+  await expect(more).toHaveAttribute("aria-expanded", "true");
+  await expect(
+    page.getByRole("button", { name: "Close page menu" }),
+  ).toBeFocused();
+  await page.keyboard.press("Shift+Tab");
+  await expect(
+    menu.getByRole("link", { name: "Download original CV" }),
+  ).toBeFocused();
+  await page.keyboard.press("Tab");
+  await expect(
+    page.getByRole("button", { name: "Close page menu" }),
+  ).toBeFocused();
+  await page.keyboard.press("Escape");
+  await expect(menu).not.toBeVisible();
+  await expect(more).toBeFocused();
+  for (const [name, route] of [
+    ["Docs", "/docs"],
+    ["Résumé", "/resume"],
+    ["About", "/about"],
+    ["Research history", "/research"],
+  ]) {
+    await more.click();
+    await menu.getByRole("link", { name: new RegExp(`^${name} `) }).click();
+    await expect(page).toHaveURL(new RegExp(`${route}$`));
+    await expect(menu).not.toBeVisible();
+    await expect(more).toHaveAttribute("data-current", "true");
+  }
+});
+
+test("click and keyboard activation produce feedback while reduced motion stays still", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/library");
+  const toggle = page.locator(".profile-expand");
+  await toggle.click();
+  await expect(toggle).toHaveAttribute("aria-expanded", "true");
+  await expect(toggle).toHaveAttribute("data-feedback", /[ab]/);
+  await expect
+    .poll(() =>
+      toggle.evaluate((el) => getComputedStyle(el, "::after").animationName),
+    )
+    .toMatch(/press-wash/);
+  await expect(toggle).not.toHaveAttribute("data-feedback");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await toggle.focus();
+  await page.keyboard.press("Space");
+  await expect(toggle).toHaveAttribute("aria-expanded", "false");
+  await expect(toggle).toHaveAttribute("data-feedback", /[ab]/);
+  expect(
+    await toggle.evaluate(
+      (el) => getComputedStyle(el, "::after").animationName,
+    ),
+  ).toBe("none");
+});
+
+test("toolbox selects real project examples with pointer and keyboard", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const tabs = page.getByRole("tablist", { name: "Tools in practice" });
+  const panel = page.getByRole("tabpanel");
+  for (const name of ["Python", "TypeScript", "React", "FastAPI", "Git"]) {
+    const tab = tabs.getByRole("tab", { name, exact: false });
+    await tab.click();
+    await expect(tab).toHaveAttribute("aria-selected", "true");
+    await expect(panel).toContainText(`${name} / In the public work`);
+    await expect(panel.getByRole("link")).toHaveCount(2);
+  }
+  await page.keyboard.press("Home");
+  await expect(tabs.getByRole("tab", { name: /Python/ })).toBeFocused();
+  await page.keyboard.press("ArrowRight");
+  await expect(tabs.getByRole("tab", { name: /TypeScript/ })).toHaveAttribute(
+    "aria-selected",
+    "true",
+  );
+  await panel.getByRole("link", { name: "Mahad education initiative" }).click();
+  await expect(page).toHaveURL(/\/library\/mahad-education$/);
+});
+
+test("gallery picker, diagram enlargement, and native fullscreen work", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page
+    .getByRole("button", { name: "Open CYR@ architecture preview" })
+    .click();
+  const dialog = page.getByRole("dialog", { name: "Inside CYR@." });
+  await dialog
+    .getByRole("group", { name: "Choose a project" })
+    .getByRole("button", { name: /04 HYDRA/ })
+    .click();
+  await expect(page.locator("#preview-title")).toHaveText("Inside HYDRA.");
+  const stage = page.locator(".project-dialog .system-stage").first();
+  const before = (await stage.boundingBox())!.width;
+  await page
+    .getByRole("button", { name: "Enlarge diagram", exact: true })
+    .click();
+  await expect(page.locator(".project-dialog .project-system")).toHaveAttribute(
+    "data-enlarged",
+    "true",
+  );
+  expect((await stage.boundingBox())!.width).toBeGreaterThan(before);
+  await page.getByRole("button", { name: "Fit diagram", exact: true }).click();
+  await page.getByRole("button", { name: "Fullscreen", exact: true }).click();
+  await expect
+    .poll(() => page.evaluate(() => document.fullscreenElement?.className))
+    .toBe("dialog-content");
+  await expect(
+    page.getByRole("button", { name: "Exit fullscreen" }),
+  ).toHaveAttribute("aria-pressed", "true");
+  await page.getByRole("button", { name: "Exit fullscreen" }).click();
+  await expect
+    .poll(() => page.evaluate(() => document.fullscreenElement))
+    .toBeNull();
+  await page
+    .getByRole("button", { name: "Close architecture preview" })
+    .click();
+  await expect(
+    page.getByRole("button", { name: "Open CYR@ architecture preview" }),
+  ).toBeFocused();
+});
+
+test("fullscreen denial expands the viewer with an honest fallback", async ({
+  page,
+}) => {
+  await page.addInitScript(() => {
+    Element.prototype.requestFullscreen = () =>
+      Promise.reject(new Error("Unavailable"));
+  });
+  await page.goto("/");
+  await page
+    .getByRole("button", { name: "Open CYR@ architecture preview" })
+    .click();
+  await page.getByRole("button", { name: "Fullscreen", exact: true }).click();
+  await expect(page.getByRole("dialog")).toHaveClass(/dialog-wide/);
+  await expect(
+    page.getByText(
+      "Expanded to fit your screen. Fullscreen is unavailable in this browser.",
+    ),
+  ).toBeVisible();
 });

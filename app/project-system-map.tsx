@@ -11,6 +11,7 @@ export default function ProjectSystemMap({
   showShare?: boolean;
 }) {
   const [active, setActive] = useState(0);
+  const [enlarged, setEnlarged] = useState(false);
   const id = useId();
   const strip = useRef<HTMLDivElement>(null);
   const buttons = useRef<(HTMLButtonElement | null)[]>([]);
@@ -36,13 +37,28 @@ export default function ProjectSystemMap({
     if (focus) button?.focus({ preventScroll: true });
   }
   return (
-    <section className="project-system" aria-labelledby={`${id}-heading`}>
+    <section
+      className="project-system"
+      data-enlarged={enlarged}
+      aria-labelledby={`${id}-heading`}
+    >
       <div className="system-heading">
         <div>
           <p className="eyebrow">{system.title} / System map</p>
           <h2 id={`${id}-heading`}>A glimpse of how it works.</h2>
         </div>
-        <span className="map-scope">{system.scope}</span>
+        <div className="map-context">
+          <span className="map-scope">{system.scope}</span>
+          <button
+            type="button"
+            className="button map-enlarge"
+            aria-pressed={enlarged}
+            onClick={() => setEnlarged((value) => !value)}
+          >
+            {enlarged ? "Fit diagram" : "Enlarge diagram"}
+            <span aria-hidden="true">{enlarged ? "−" : "+"}</span>
+          </button>
+        </div>
       </div>
       <p className="system-overview">{system.overview}</p>
       <p className="map-instruction">

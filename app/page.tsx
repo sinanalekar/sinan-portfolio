@@ -3,6 +3,7 @@ import Image from "next/image";
 import { entries, researchProjects } from "./data";
 import { Arrow } from "./icons";
 import ProjectGallery from "./project-gallery";
+import Toolbox from "./toolbox";
 
 export default function Home() {
   return (
@@ -234,13 +235,7 @@ export default function Home() {
             </Link>
           </div>
         </div>
-        <div className="tool-line">
-          <span className="micro">IN MY TOOLBOX</span>
-          <p>
-            Python <span> / </span> TypeScript <span> / </span> React{" "}
-            <span> / </span> FastAPI <span> / </span> Git
-          </p>
-        </div>
+        <Toolbox />
       </section>
       <section className="home-section">
         <div className="section-heading">
