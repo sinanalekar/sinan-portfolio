@@ -190,26 +190,41 @@ for (const theme of ["dark", "light"])
     ).toEqual([]);
   });
 test("contact endpoint validates and prepares email without sending", async ({
-  request,
+  page,
 }) => {
-  const invalid = await request.post("/api/contact", { data: {} });
-  expect(invalid.status()).toBe(400);
-  const valid = await request.post("/api/contact", {
-    data: {
-      name: "Portfolio review",
-      email: "review@example.com",
-      company: "",
-      subject: "Public project question",
-      purpose: "Technical discussion",
-      message: "A local verification of the contact preparation flow.",
-      website: "",
-    },
+  await page.goto("/contact");
+  const results = await page.evaluate(async () => {
+    const invalid = await fetch("/api/contact", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: "{}",
+    });
+    const valid = await fetch("/api/contact", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        name: "Portfolio review",
+        email: "review@example.com",
+        company: "",
+        subject: "Public project question",
+        purpose: "Technical discussion",
+        message: "A browser verification of the contact preparation flow.",
+        website: "",
+      }),
+    });
+    return {
+      invalidStatus: invalid.status,
+      validStatus: valid.status,
+      body: (await valid.json()) as { mailto: string },
+    };
   });
-  expect(valid.status()).toBe(200);
-  expect((await valid.json()).mailto).toMatch(
+  expect(results.invalidStatus).toBe(400);
+  expect(results.validStatus).toBe(200);
+  expect(results.body.mailto).toMatch(
     /^mailto:.*subject=Public%20project%20question/,
   );
 });
+
 test("responsive layout at boundary widths", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   for (const width of [320, 360, 760, 768, 960, 1024, 1280, 1920]) {

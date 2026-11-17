@@ -27,3 +27,5 @@ Production-mode Chromium checks cover all 12 main/content routes in desktop dark
 Screenshots are from the production build at 1440×900 and 390×844, with reduced motion enabled for stable captures. A second visual pass corrected font loading, headline proportions, mobile wrapping, navigation placement, and the light-theme glow after direct comparison with the live reference.
 
 Production is intentionally unchanged. This branch is for preview and review only.
+
+Final results: 4 content tests and 13 browser tests passed locally; all 13 browser tests also passed against the hosted Vercel preview. Lint, type checking, and the production build passed. The legacy project URL redirects to `/projects`, unknown Library entries return 404, and the production alias was checked separately and still points to its original deployment.
