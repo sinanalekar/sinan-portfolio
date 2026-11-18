@@ -25,6 +25,10 @@ const routes = [
   "/library/evidence-gates",
   "/library/artifact-comparisons",
   "/library/research-protocol",
+  "/library/cider",
+  "/library/frontier",
+  "/library/discovery-machine",
+  "/library/sentinental-ix",
 ];
 for (const scenario of [
   { name: "desktop dark", width: 1440, theme: "dark" },
@@ -55,9 +59,7 @@ for (const scenario of [
         ),
         route,
       ).toBeTruthy();
-      expect(await page.locator("body").innerText()).not.toMatch(
-        /sent[ie]n[et]+al\s*ix|founder/i,
-      );
+      expect(await page.locator("body").innerText()).not.toMatch(/founder/i);
     }
     expect(errors).toEqual([]);
   });
@@ -66,12 +68,12 @@ test("Library combines search and topic filters and recovers from no results", a
   page,
 }) => {
   await page.goto("/library");
-  await expect(page.getByRole("status")).toHaveText("16 entries");
+  await expect(page.getByRole("status")).toHaveText("20 entries");
   await page
     .locator(".shelf")
     .getByRole("button", { name: "Security", exact: false })
     .click();
-  await expect(page.getByRole("status")).toHaveText("5 entries");
+  await expect(page.getByRole("status")).toHaveText("6 entries");
   await page.getByRole("searchbox").fill("Tool permissions");
   await expect(page.getByRole("status")).toHaveText("1 entry");
   await expect(page.locator(".card h3")).toHaveText(["Tool permissions"]);
@@ -80,7 +82,7 @@ test("Library combines search and topic filters and recovers from no results", a
     .fill("checkpoints");
   await expect(page.getByRole("status")).toHaveText("0 entries");
   await page.getByRole("button", { name: "Clear search and filters" }).click();
-  await expect(page.getByRole("status")).toHaveText("16 entries");
+  await expect(page.getByRole("status")).toHaveText("20 entries");
   await page.getByRole("searchbox").fill("  LOCAL DESKTOP  ");
   await expect(page.locator(".card h3")).toHaveText(["CYR@"]);
   await page.locator(".card").click();
@@ -91,7 +93,7 @@ test("Library combines search and topic filters and recovers from no results", a
   await page.goto("/docs");
   await expect(page.locator(".card")).toHaveCount(8);
   await page.goto("/projects");
-  await expect(page.locator(".card")).toHaveCount(8);
+  await expect(page.locator(".card")).toHaveCount(12);
 });
 test("narrow Library filters remain reachable with touch and keyboard", async ({
   page,
@@ -101,7 +103,7 @@ test("narrow Library filters remain reachable with touch and keyboard", async ({
   const filter = page.getByRole("button", { name: "Research methods" });
   await filter.scrollIntoViewIfNeeded();
   await filter.click();
-  await expect(page.getByRole("status")).toHaveText("5 entries");
+  await expect(page.getByRole("status")).toHaveText("8 entries");
   await filter.focus();
   await page.keyboard.press("Enter");
   await expect(filter).toHaveAttribute("aria-pressed", "true");
@@ -287,7 +289,9 @@ test("contact form completes the browser-to-API preparation flow", async ({
   );
   await page.getByRole("button", { name: "Prepare email" }).click();
   expect((await response).status()).toBe(200);
-  await expect(page.getByRole("status")).toContainText("Your message is ready");
+  await expect(page.locator(".form").getByRole("status")).toContainText(
+    "Your message is ready",
+  );
 });
 
 test("Library ranks research first, supports applications and legacy filters", async ({
@@ -303,12 +307,13 @@ test("Library ranks research first, supports applications and legacy filters", a
     .getByRole("group", { name: "Entry type" })
     .getByRole("button", { name: "Applications", exact: true })
     .click();
-  await expect(page.getByRole("status")).toHaveText("3 entries");
+  await expect(page.getByRole("status")).toHaveText("4 entries");
   await page.getByLabel("Sort entries").selectOption("az");
   await expect(page.locator(".card h3")).toHaveText([
     "IX:X",
     "Mahad education initiative",
     "Research portfolio",
+    "Sentinental IX",
   ]);
   await page.getByRole("button", { name: "Legacy", exact: true }).click();
   await expect(page.getByRole("status")).toHaveText("1 entry");
@@ -475,6 +480,10 @@ test("every project has a working stage map and keyboard walkthrough", async ({
     ["mahad-education", "Mahad education initiative"],
     ["portfolio", "Research portfolio"],
     ["ix-x", "IX:X"],
+    ["cider", "CIDER"],
+    ["frontier", "Frontier"],
+    ["discovery-machine", "Discovery Machine"],
+    ["sentinental-ix", "Sentinental IX"],
   ]) {
     await page.goto(`/library/${slug}`);
     const map = page.locator(".project-system");
@@ -679,12 +688,10 @@ test("click and keyboard activation produce feedback while reduced motion stays 
     );
   await toggle.click();
   await expect(toggle).toHaveAttribute("aria-expanded", "true");
-  await expect
-    .poll(frames)
-    .toContainEqual({
-      animation: expect.stringMatching(/press-wash/),
-      reduced: false,
-    });
+  await expect.poll(frames).toContainEqual({
+    animation: expect.stringMatching(/press-wash/),
+    reduced: false,
+  });
   await expect(toggle).not.toHaveAttribute("data-feedback");
   await page.emulateMedia({ reducedMotion: "reduce" });
   await toggle.focus();
@@ -780,4 +787,169 @@ test("fullscreen denial expands the viewer with an honest fallback", async ({
       "Expanded to fit your screen. Fullscreen is unavailable in this browser.",
     ),
   ).toBeVisible();
+});
+
+test("direct contact copies the actual email and provides a mail link", async ({
+  page,
+  context,
+}) => {
+  await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+  await page.goto("/contact");
+  const contact = page.locator(".direct-contact");
+  await expect(
+    contact.getByRole("link", { name: "sinanalekar9192@gmail.com" }),
+  ).toHaveAttribute("href", "mailto:sinanalekar9192@gmail.com");
+  await contact
+    .getByRole("button", { name: "Copy email", exact: true })
+    .click();
+  await expect(contact.getByRole("status")).toHaveText(
+    "Email address copied to clipboard",
+  );
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
+    "sinanalekar9192@gmail.com",
+  );
+});
+
+test("email copy denial offers a selected manual fallback", async ({
+  page,
+}) => {
+  await page.addInitScript(() =>
+    Object.defineProperty(navigator, "clipboard", {
+      configurable: true,
+      value: { writeText: () => Promise.reject(new Error("Denied")) },
+    }),
+  );
+  await page.goto("/contact");
+  await page.getByRole("button", { name: "Copy email", exact: true }).click();
+  const input = page.getByRole("textbox", { name: "Email address to copy" });
+  await expect(input).toHaveValue("sinanalekar9192@gmail.com");
+  await expect(input).toBeFocused();
+  expect(
+    await input.evaluate(
+      (node: HTMLInputElement) => node.selectionEnd! - node.selectionStart!,
+    ),
+  ).toBe("sinanalekar9192@gmail.com".length);
+  await expect(
+    page.getByRole("button", { name: "Email copied ✓" }),
+  ).toHaveCount(0);
+});
+
+test("the printed web resume is one page with contact links and security skills", async ({
+  page,
+}, testInfo) => {
+  const { execFile } = await import("node:child_process");
+  const { promisify } = await import("node:util");
+  const run = promisify(execFile);
+  await page.goto("/resume");
+  for (const skill of [
+    "Burp Suite",
+    "Wireshark",
+    "Nmap",
+    "OAuth 2.0",
+    "JWT",
+    "PostgreSQL",
+    "GitHub Actions",
+  ])
+    await expect(page.locator(".resume-toolkit")).toContainText(skill);
+  await page.evaluate(() => document.fonts.ready);
+  const path = testInfo.outputPath("web-resume.pdf");
+  await page.pdf({
+    path,
+    format: "A4",
+    printBackground: true,
+    preferCSSPageSize: true,
+  });
+  const { stdout: info } = await run("pdfinfo", [path]);
+  expect(info).toMatch(/Pages:\s+1\b/);
+  const { stdout: text } = await run("pdftotext", ["-layout", path, "-"]);
+  for (const term of [
+    "Sinan Anwar Alekar",
+    "sinanalekar9192@gmail.com",
+    "github.com/sinanalekar",
+    "linkedin.com/in/",
+    "sinan-alekar.vercel.app",
+    "Burp Suite",
+    "PostgreSQL",
+    "GitHub Actions",
+  ])
+    expect(text).toContain(term);
+});
+
+test("Discovery Machine remains explicitly incomplete throughout browsing", async ({
+  page,
+}) => {
+  await page.goto("/library");
+  await page
+    .getByRole("group", { name: "Research project" })
+    .getByRole("button", { name: /Discovery Machine/ })
+    .click();
+  await expect(page.locator(".explorer-title .progress-badge")).toHaveText(
+    "In progress",
+  );
+  await expect(page.locator(".explorer-title")).toContainText("incomplete");
+  await expect(page.getByText("Planned output", { exact: true })).toBeVisible();
+  await page.getByRole("searchbox").fill("in progress");
+  await expect(page.locator(".card")).toHaveCount(1);
+  await expect(page.locator(".card .progress-badge")).toHaveText("In progress");
+  await page.locator(".card").click();
+  await expect(page.locator(".page-intro .progress-badge")).toHaveText(
+    "In progress",
+  );
+  await expect(
+    page.getByText("Discovery Machine is in progress and incomplete.", {
+      exact: false,
+    }),
+  ).toBeVisible();
+  await expect(page.locator(".map-scope")).toContainText(
+    "in progress / incomplete",
+  );
+  await page.goto("/");
+  await expect(
+    page.locator(
+      '.discovery-list a[href="/library/discovery-machine"] .progress-badge',
+    ),
+  ).toHaveText("In progress");
+  await page
+    .getByRole("button", { name: "Open CYR@ architecture preview" })
+    .click();
+  await page
+    .getByRole("group", { name: "Choose a project" })
+    .getByRole("button", { name: /Discovery Machine/ })
+    .click();
+  await expect(page.locator(".dialog-heading .progress-badge")).toHaveText(
+    "In progress",
+  );
+  await expect(page.locator(".project-dialog .system-overview")).toContainText(
+    "incomplete",
+  );
+});
+
+test("new research overviews and restored Sentinental IX have honest scope", async ({
+  page,
+}) => {
+  for (const [slug, title] of [
+    ["cider", "CIDER"],
+    ["frontier", "Frontier"],
+  ]) {
+    await page.goto(`/library/${slug}`);
+    await expect(page.locator("h1")).toHaveText(title);
+    await expect(page.locator(".page-intro .experimental-badge")).toHaveText(
+      "Experimental",
+    );
+    await expect(page.locator(".article-access")).toHaveText(
+      "Private research",
+    );
+    await expect(page.locator("main")).toContainText(/synthetic|simulated/i);
+  }
+  await page.goto("/projects/sentinental-ix/details");
+  await expect(page).toHaveURL(/\/library\/sentinental-ix$/);
+  await expect(page.locator("h1")).toHaveText("Sentinental IX");
+  await expect(page.locator(".article-access")).toHaveText("Public source");
+  await expect(page.locator("main")).toContainText(
+    "disabled until configured or implemented",
+  );
+  await expect(page.locator(".source-list a").first()).toHaveAttribute(
+    "href",
+    /Sentinental-Ix\/blob\/662b339/,
+  );
 });

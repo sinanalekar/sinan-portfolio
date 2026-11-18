@@ -14,7 +14,7 @@ export type LibraryEntry = {
   summary: string;
   rank?: number;
   rankReason?: string;
-  status?: "Current" | "Legacy";
+  status?: "Current" | "Legacy" | "Experimental" | "In progress";
   stack?: readonly string[];
   collection: "Research" | "Applications";
   visibility: "Public source" | "Private research" | "Public summary";
@@ -261,7 +261,7 @@ export const entries: readonly LibraryEntry[] = [
   },
   {
     slug: "portfolio",
-    rank: 7,
+    rank: 11,
     status: "Current",
     stack: ["Next.js", "React", "TypeScript"],
     rankReason:
@@ -302,7 +302,7 @@ export const entries: readonly LibraryEntry[] = [
   },
   {
     slug: "mahad-education",
-    rank: 6,
+    rank: 9,
     status: "Current",
     stack: ["Next.js", "TypeScript", "Firebase"],
     rankReason:
@@ -350,7 +350,7 @@ export const entries: readonly LibraryEntry[] = [
   },
   {
     slug: "ix-x",
-    rank: 8,
+    rank: 12,
     status: "Legacy",
     stack: ["React", "TypeScript", "Firebase", "Android"],
     rankReason:
@@ -384,6 +384,195 @@ export const entries: readonly LibraryEntry[] = [
     ],
     collection: "Applications",
     visibility: "Public summary",
+  },
+  {
+    slug: "cider",
+    title: "CIDER",
+    rank: 6,
+    kind: "Project",
+    topic: "Research methods",
+    color: "lavender",
+    collection: "Research",
+    visibility: "Private research",
+    summary:
+      "An experimental Python framework for hypothesis-led research loops, bounded experiments, and inspectable records.",
+    focus: "Experimental research loops",
+    input: "A scoped, falsifiable research question",
+    output: "Observations, control comparisons, and research records",
+    boundary:
+      "The overview covers synthetic demonstrations; real-world security outcomes are not claimed.",
+    rankReason:
+      "Continue with bounded experimental research and the role of controls.",
+    stack: ["Python"],
+    sections: [
+      [
+        "What I built",
+        "CIDER is a private experimental research framework. It organises a research question into a hypothesis, a bounded experiment, observations, a comparison against controls, and a record of the outcome.",
+      ],
+      [
+        "How it works",
+        "The documented loop proposes a testable explanation, runs a scoped experiment, and records whether the observation supports or challenges the hypothesis. Fuzzing, invariant checks, and provenance records support that workflow.",
+      ],
+      [
+        "What you can inspect",
+        "The conceptual map and related methods notes explain the research discipline. Private implementation files, experiment artifacts, targets, and findings are not published here.",
+      ],
+      [
+        "Scope and limits",
+        "The documented demonstrations use synthetic research targets. They do not establish a vulnerability in an Apple product or any other real system. There are no public benchmark or discovery claims in this overview.",
+      ],
+    ],
+    sources: [
+      ["General research methods", "/docs"],
+      ["Research history", "/research"],
+    ],
+    status: "Experimental",
+  },
+  {
+    slug: "frontier",
+    title: "Frontier",
+    rank: 7,
+    kind: "Project",
+    topic: "Research methods",
+    color: "lavender",
+    collection: "Research",
+    visibility: "Private research",
+    summary:
+      "Experimental algorithm and representation research evaluated on simulated security state spaces.",
+    focus: "Synthetic evaluation and generalization",
+    input: "Simulated security states and candidate representations",
+    output: "Evaluated candidates with explicit limitations",
+    boundary:
+      "Synthetic results do not establish behavior on production systems.",
+    rankReason:
+      "Explore what synthetic evaluation can establish, and where its conclusions stop.",
+    stack: ["Python"],
+    sections: [
+      [
+        "What I built",
+        "Frontier is a private experimental project for studying representations, invariants, and decision procedures in simulated security state spaces. It provides a controlled setting for evaluating ideas before making broader claims.",
+      ],
+      [
+        "How it works",
+        "A candidate is evaluated against simulated data, held-out conditions, and controls. Training performance, validation results, and limits of generalization remain distinct parts of the record.",
+      ],
+      [
+        "What you can inspect",
+        "The system map explains the evaluation flow. The related evidence notes describe how to record a result and its limitations without exposing private algorithms, datasets, or experiment records.",
+      ],
+      [
+        "Scope and limits",
+        "The work is experimental and simulation-based. It is not presented as a production security detector, an exploit generator, or proof of a vulnerability in a real target. Negative and inconclusive results remain part of the research.",
+      ],
+    ],
+    sources: [
+      ["General research methods", "/docs"],
+      ["Research history", "/research"],
+    ],
+    status: "Experimental",
+  },
+  {
+    slug: "discovery-machine",
+    title: "Discovery Machine",
+    rank: 8,
+    kind: "Project",
+    topic: "Research methods",
+    color: "lavender",
+    collection: "Research",
+    visibility: "Private research",
+    summary:
+      "An incomplete research-planning prototype I am actively building to organise questions and prioritize authorized work.",
+    focus: "Research planning — in progress",
+    input: "Intended: scoped questions and approved research context",
+    output: "Planned: prioritized questions and reviewable study plans",
+    boundary:
+      "In progress and incomplete. The planned workflow is still being built and validated.",
+    rankReason:
+      "An unfinished research-planning project, shown with its current development limits.",
+    stack: ["Python"],
+    sections: [
+      [
+        "Current status",
+        "Discovery Machine is in progress and incomplete. I am still building it. This page describes the intended direction and a conceptual workflow; it does not present the project as a finished research system.",
+      ],
+      [
+        "What I am building",
+        "The goal is to organise research context, prioritize promising questions, and make a proposed study plan easier to review against its authorized scope.",
+      ],
+      [
+        "Planned workflow",
+        "The intended flow moves from a scoped question to approved context, prioritization, a bounded plan, and evidence review. Implementation details and the workflow may change as development continues.",
+      ],
+      [
+        "What this public glimpse covers",
+        "Visitors can inspect the planned system map and related general methods. Private corpora, internal records, source code, targets, and findings remain confidential. Completion, reliability, and real-world discovery outcomes are not claimed.",
+      ],
+    ],
+    sources: [
+      ["General research methods", "/docs"],
+      ["Research history", "/research"],
+    ],
+    status: "In progress",
+  },
+  {
+    slug: "sentinental-ix",
+    title: "Sentinental IX",
+    rank: 10,
+    kind: "Project",
+    topic: "Security",
+    color: "blue",
+    collection: "Applications",
+    visibility: "Public source",
+    summary:
+      "A defensive security-operations application with a Next.js interface, FastAPI API, PostgreSQL records, and role-based workflows.",
+    focus: "Defensive security operations",
+    input: "Authorized users and operational records",
+    output: "Persisted workflows and audit history",
+    boundary:
+      "The source documents disabled or unconfigured modules; a listed module is not a claim of a live production service.",
+    rankReason:
+      "A public application example of identity, role boundaries, and persisted operations.",
+    stack: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "FastAPI",
+      "PostgreSQL",
+      "SQLAlchemy",
+      "Docker",
+    ],
+    sections: [
+      [
+        "What I built",
+        "Sentinental IX, called SentinelX in the public repository, is an independent defensive security-operations application. I built a Next.js interface and a FastAPI backend around users, roles, operational records, and audit history, with PostgreSQL for persistent state.",
+      ],
+      [
+        "How it works",
+        "The frontend calls the API on the same origin. The documented identity flow verifies a Firebase identity and creates the application’s own revocable cookie session. PostgreSQL remains authoritative for roles and records. Backend role checks govern the operational workflows.",
+      ],
+      [
+        "What you can inspect",
+        "The public source contains asset and vulnerability workflows, alerts and incidents, sessions, audit events, file hash/metadata analysis, and authorized passive OSINT. Start with the README’s architecture and module-status sections, then inspect the linked API endpoints.",
+      ],
+      [
+        "Scope and limits",
+        "The README explicitly marks the AI copilot, report generation, compliance scoring, and several monitoring modules as disabled until configured or implemented. File hash/metadata analysis is not antivirus scanning. This case study makes no security-audit, customer-count, or uptime claim.",
+      ],
+    ],
+    sources: [
+      [
+        "Architecture and module status",
+        "https://github.com/sinanalekar/Sentinental-Ix/blob/662b339384b73d211d44c08e250684673d34a8c6/README.md",
+      ],
+      [
+        "Authentication workflow",
+        "https://github.com/sinanalekar/Sentinental-Ix/blob/662b339384b73d211d44c08e250684673d34a8c6/backend/app/api/v1/endpoints/auth.py",
+      ],
+      [
+        "Asset workflows",
+        "https://github.com/sinanalekar/Sentinental-Ix/blob/662b339384b73d211d44c08e250684673d34a8c6/backend/app/api/v1/endpoints/assets.py",
+      ],
+    ],
   },
   {
     slug: "permissions",
@@ -664,4 +853,8 @@ export const relatedNotes: Record<string, readonly string[]> = {
   hydra: ["artifact-comparisons"],
   cyra: ["research-protocol"],
   "mahad-education": ["participant-consent"],
+  cider: ["evidence-gates", "evidence"],
+  frontier: ["evidence", "evidence-gates"],
+  "discovery-machine": ["research-protocol", "evidence-gates"],
+  "sentinental-ix": ["permissions"],
 };

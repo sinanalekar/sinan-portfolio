@@ -4,6 +4,7 @@ import { entries, researchProjects } from "./data";
 import { Arrow } from "./icons";
 import ProjectGallery from "./project-gallery";
 import Toolbox from "./toolbox";
+import ProjectStatus from "./project-status";
 
 export default function Home() {
   return (
@@ -161,7 +162,7 @@ export default function Home() {
           <div>
             <p className="eyebrow">A connected research library</p>
             <h2>
-              Five roles.
+              Different roles.
               <br />
               One careful approach.
             </h2>
@@ -176,6 +177,7 @@ export default function Home() {
               <span className="discovery-number">0{project.rank}</span>
               <div>
                 <span className="micro">{project.visibility}</span>
+                <ProjectStatus status={project.status} />
                 <h3>{project.title}</h3>
                 <p>{project.focus}</p>
               </div>

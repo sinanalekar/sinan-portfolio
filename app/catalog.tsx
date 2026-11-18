@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { entries } from "./data";
+import ProjectStatus from "./project-status";
 const topics = [
   "AI tooling",
   "Web apps",
@@ -35,7 +36,7 @@ export default function Catalog({
               : type === "Legacy"
                 ? entry.status === "Legacy"
                 : entry.kind !== "Project")) &&
-        `${entry.title} ${entry.summary} ${entry.topic} ${entry.kind} ${entry.stack?.join(" ") ?? ""}`
+        `${entry.title} ${entry.summary} ${entry.topic} ${entry.kind} ${entry.status ?? ""} ${entry.stack?.join(" ") ?? ""}`
           .toLowerCase()
           .includes(query.trim().toLowerCase()),
     )
@@ -152,9 +153,7 @@ export default function Catalog({
               <span className="card-kind">
                 {entry.kind} <span>· {entry.topic}</span>
                 <span className="entry-access">{entry.visibility}</span>
-                {entry.status === "Legacy" && (
-                  <span className="legacy-badge">Legacy</span>
-                )}
+                <ProjectStatus status={entry.status} />
               </span>
               <div className="card-title">
                 {entry.rank && (

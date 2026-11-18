@@ -5,6 +5,7 @@ import "./globals.css";
 import "./profile.css";
 import "./interactions.css";
 import "./navigation.css";
+import "./resume.css";
 import SocialLinks from "./social-links";
 import Profile from "./profile";
 import Navigation from "./navigation";

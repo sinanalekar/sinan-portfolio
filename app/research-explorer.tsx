@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { researchProjects } from "./data";
 import { Arrow } from "./icons";
+import ProjectStatus from "./project-status";
 export default function ResearchExplorer() {
   const [selected, setSelected] = useState("cyr");
   const [compare, setCompare] = useState(false);
@@ -19,7 +20,7 @@ export default function ResearchExplorer() {
     >
       <div className="explorer-heading">
         <div>
-          <p className="eyebrow">Research library / Five connected roles</p>
+          <p className="eyebrow">Research library / Connected roles</p>
           <h2 id="research-library-title">
             Find your way
             <br />
@@ -39,8 +40,8 @@ export default function ResearchExplorer() {
       </div>
       <p className="explorer-intro">
         A suggested reading order: the shared workspace, security-state
-        analysis, evidence validation, artifact research, then the portable
-        research protocol.
+        analysis, evidence validation, artifact research, the portable protocol,
+        experimental methods, and a planning prototype still in progress.
       </p>
       <div
         className="explorer-picker"
@@ -56,23 +57,33 @@ export default function ResearchExplorer() {
           >
             <span className="micro">0{project.rank}</span>
             <strong>{project.title}</strong>
-            <span>{project.focus}</span>
+            <span className="explorer-focus">{project.focus}</span>
+            <ProjectStatus status={project.status} />
           </button>
         ))}
       </div>
       <div className="explorer-panel" aria-live="polite">
         <div className="explorer-title">
-          <span className="access-badge">{active.visibility}</span>
+          <div className="explorer-badges">
+            <span className="access-badge">{active.visibility}</span>
+            <ProjectStatus status={active.status} />
+          </div>
           <h3>{active.title}</h3>
           <p>{active.summary}</p>
         </div>
         <dl>
           <div>
-            <dt>Starts with</dt>
+            <dt>
+              {active.status === "In progress"
+                ? "Planned input"
+                : "Starts with"}
+            </dt>
             <dd>{active.input}</dd>
           </div>
           <div>
-            <dt>Produces</dt>
+            <dt>
+              {active.status === "In progress" ? "Planned output" : "Produces"}
+            </dt>
             <dd>{active.output}</dd>
           </div>
         </dl>
@@ -129,6 +140,11 @@ export default function ResearchExplorer() {
                   ["Input", active.input, other.input],
                   ["Output", active.output, other.output],
                   ["Access", active.visibility, other.visibility],
+                  [
+                    "Status",
+                    active.status || "Project overview",
+                    other.status || "Project overview",
+                  ],
                 ].map(([label, a, b]) => (
                   <tr key={label}>
                     <th scope="row">{label}</th>

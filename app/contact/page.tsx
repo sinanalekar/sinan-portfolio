@@ -1,5 +1,7 @@
 import ContactForm from "./ContactForm";
 import SocialLinks from "../social-links";
+import CopyEmail from "../copy-email";
+import { person } from "../profile-content";
 export const metadata = { title: "Contact" };
 export default function Contact() {
   return (
@@ -16,6 +18,20 @@ export default function Contact() {
           the public work. Find me on these profiles or prepare an email below.
         </p>
       </div>
+      <section className="direct-contact" aria-labelledby="direct-email-title">
+        <div>
+          <p className="eyebrow" id="direct-email-title">
+            Direct email
+          </p>
+          <a className="email-address" href={`mailto:${person.email}`}>
+            {person.email}
+          </a>
+          <p>
+            Open your email app, or copy the address and write from your inbox.
+          </p>
+        </div>
+        <CopyEmail />
+      </section>
       <SocialLinks variant="cards" />
       <ContactForm />
     </article>
