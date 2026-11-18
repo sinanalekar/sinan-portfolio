@@ -19,7 +19,7 @@ test("required public routes exist", async () => {
   );
 });
 
-test("the published catalog has unique routes and excludes retired project claims", async () => {
+test("the published catalog has unique routes and avoids inflated titles", async () => {
   const data = await read("app/data.ts");
   const slugs = Array.from(
     data.matchAll(/slug: "([^"]+)"/g),
@@ -34,10 +34,7 @@ test("the published catalog has unique routes and excludes retired project claim
     "app/data.ts",
     "app/sitemap.ts",
   ]) {
-    assert.doesNotMatch(
-      await read(path),
-      /Sentinental IX|Founder & Lead Developer/,
-    );
+    assert.doesNotMatch(await read(path), /Founder & Lead Developer/);
   }
 });
 
@@ -48,7 +45,7 @@ test("visitor PIN and admin systems are absent", async () => {
   await assert.rejects(access(new URL("app/unlock", root)));
 });
 
-test("public pages and metadata exclude retired operations brand and inflated titles", async () => {
+test("public pages and metadata avoid inflated titles", async () => {
   const { readdir } = await import("node:fs/promises");
   async function files(dir) {
     const items = await readdir(new URL(dir, root), { withFileTypes: true });
@@ -64,11 +61,7 @@ test("public pages and metadata exclude retired operations brand and inflated ti
   }
   for (const path of await files("app"))
     if (/\.(tsx?|css|svg)$/.test(path))
-      assert.doesNotMatch(
-        await read(path),
-        /sent[ie]n[et]+al\s*ix|founder/i,
-        path,
-      );
+      assert.doesNotMatch(await read(path), /founder/i, path);
 });
 
 test("the exact user-selected CV is hosted independently of Drive", async () => {
@@ -92,13 +85,16 @@ test("research summaries exclude removed work and private repository links", asy
   );
   assert.doesNotMatch(
     data,
-    /github\.com\/sinanalekar\/(seek|veritas|hydra-apple-vrs|cyra-skill)(?:\/|")/,
+    /github\.com\/sinanalekar\/(seek|veritas|hydra-apple-vrs|cyra-skill|cider-agent|frontier-algorithm-discovery|discovery-machine)(?:\/|")/,
   );
   assert.doesNotMatch(
     data,
     /635|CVE-\d|kernelcache\.release|dossier|0day|remotezip\.py/,
   );
-  for (const slug of ["cyr", "seek", "veritas", "hydra", "cyra"])
+  for (const slug of [
+    "cyr", "seek", "veritas", "hydra", "cyra", "cider", "frontier",
+    "discovery-machine", "sentinental-ix",
+  ])
     assert.match(data, new RegExp(`slug: "${slug}"`));
 });
 

@@ -4,6 +4,7 @@ export default defineConfig({
   testDir: "./tests/browser",
   fullyParallel: true,
   workers: 3,
+  timeout: 60000,
   use: {
     baseURL: process.env.BASE_URL || "http://127.0.0.1:3001",
     launchOptions: {

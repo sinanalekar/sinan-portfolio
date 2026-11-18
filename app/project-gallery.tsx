@@ -8,6 +8,7 @@ import ProjectSystemMap from "./project-system-map";
 import CopyLink from "./copy-link";
 import { Arrow } from "./icons";
 import { keepDialogFocus } from "./dialog-focus";
+import ProjectStatus from "./project-status";
 export default function ProjectGallery() {
   const dialog = useRef<HTMLDialogElement>(null);
   const content = useRef<HTMLDivElement>(null);
@@ -97,6 +98,7 @@ export default function ProjectGallery() {
                 A closer look / {index + 1} of {rankedProjects.length}
               </p>
               <h2 id="preview-title">Inside {active.title}.</h2>
+              <ProjectStatus status={active.status} />
             </div>
             <button
               className="dialog-close"

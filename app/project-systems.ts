@@ -381,4 +381,188 @@ export const projectSystems: Record<string, ProjectSystem> = {
       },
     ],
   },
+  cider: {
+    slug: "cider",
+    title: "CIDER",
+    scope: "Experimental overview · private implementation",
+    overview:
+      "A hypothesis-led research loop connects a bounded question, an experiment, controls, and an inspectable record.",
+    outcome:
+      "This glimpse covers synthetic demonstrations and general methods. Private implementation, experiment artifacts, and findings remain confidential.",
+    stages: [
+      {
+        id: "1",
+        label: "Hypothesis",
+        caption: "Make the question testable",
+        explanation:
+          "Write a falsifiable explanation and the observation that would challenge it.",
+      },
+      {
+        id: "2",
+        label: "Bounded experiment",
+        caption: "Choose a scoped test",
+        explanation:
+          "Define an authorized experiment and its limits before collecting observations.",
+      },
+      {
+        id: "3",
+        label: "Observation",
+        caption: "Record the behavior",
+        explanation:
+          "Collect an observation from the experimental setting without treating output alone as a security conclusion.",
+      },
+      {
+        id: "4",
+        label: "Controls",
+        caption: "Challenge the explanation",
+        explanation:
+          "Compare against a negative control or alternative explanation, including negative and inconclusive outcomes.",
+      },
+      {
+        id: "5",
+        label: "Research record",
+        caption: "Keep evidence and limits",
+        explanation:
+          "Preserve the question, conditions, observations, and limitations so the conclusion can be reviewed.",
+      },
+    ],
+  },
+  frontier: {
+    slug: "frontier",
+    title: "Frontier",
+    scope: "Experimental overview · synthetic evaluation",
+    overview:
+      "Candidate representations and decision procedures are evaluated in simulated security state spaces.",
+    outcome:
+      "The map describes the evaluation structure. Private algorithms, datasets, and records remain confidential; synthetic results do not establish real-system security outcomes.",
+    stages: [
+      {
+        id: "1",
+        label: "Simulated world",
+        caption: "Define the research setting",
+        explanation:
+          "Begin with a controlled simulated setting and the assumptions built into its data.",
+      },
+      {
+        id: "2",
+        label: "Candidate",
+        caption: "Propose a representation",
+        explanation:
+          "Form a candidate representation, invariant, or decision procedure to evaluate.",
+      },
+      {
+        id: "3",
+        label: "Development data",
+        caption: "Develop the candidate",
+        explanation:
+          "Use development data while preserving the separation from validation and held-out evaluation.",
+      },
+      {
+        id: "4",
+        label: "Held-out checks",
+        caption: "Test beyond the training fit",
+        explanation:
+          "Evaluate on held-out conditions and compare against controls to look for overfitting and limits of transfer.",
+      },
+      {
+        id: "5",
+        label: "Limits",
+        caption: "Record what did not generalize",
+        explanation:
+          "Keep supported observations, negative results, and generalization limits alongside the candidate.",
+      },
+    ],
+  },
+  "discovery-machine": {
+    slug: "discovery-machine",
+    title: "Discovery Machine",
+    scope: "Planned workflow · in progress / incomplete",
+    overview:
+      "An incomplete research-planning prototype. The workflow below describes the intended direction while development and validation continue.",
+    outcome:
+      "Still being built. This is a conceptual plan for an unfinished project; completion, reliability, and discovery outcomes are not claimed.",
+    stages: [
+      {
+        id: "1",
+        label: "Scoped question",
+        caption: "Planned starting point",
+        explanation:
+          "The intended starting point is a research question with an explicit authorization boundary.",
+      },
+      {
+        id: "2",
+        label: "Approved context",
+        caption: "Planned research context",
+        explanation:
+          "The planned workflow will organise approved context while keeping private source material and records confidential.",
+      },
+      {
+        id: "3",
+        label: "Prioritization",
+        caption: "Planned question ordering",
+        explanation:
+          "The goal is to make candidate questions easier to prioritize and review, with clear reasons and limitations.",
+      },
+      {
+        id: "4",
+        label: "Study plan",
+        caption: "Planned bounded work",
+        explanation:
+          "The intended output is a reviewable plan describing the proposed work, scope, and stop conditions.",
+      },
+      {
+        id: "5",
+        label: "Evidence review",
+        caption: "Planned feedback loop",
+        explanation:
+          "The planned review step will connect observations and limitations back to the research question. This workflow remains incomplete.",
+      },
+    ],
+  },
+  "sentinental-ix": {
+    slug: "sentinental-ix",
+    title: "Sentinental IX",
+    scope: "Public architecture overview",
+    overview:
+      "A Next.js interface connects authorized users to FastAPI workflows and persisted PostgreSQL records.",
+    outcome:
+      "The public repository documents implemented workflows and disabled modules. This map is an architecture overview, not a live operational dashboard.",
+    stages: [
+      {
+        id: "1",
+        label: "Interface",
+        caption: "Choose an operational workflow",
+        explanation:
+          "The Next.js interface presents the available security-operations workflows and honest unavailable states.",
+      },
+      {
+        id: "2",
+        label: "Identity & session",
+        caption: "Establish the user",
+        explanation:
+          "The documented sign-in flow verifies a Firebase identity and creates the application’s own revocable cookie session.",
+      },
+      {
+        id: "3",
+        label: "Role boundary",
+        caption: "Check the requested action",
+        explanation:
+          "FastAPI enforces role restrictions for access to operational records and administrative workflows.",
+      },
+      {
+        id: "4",
+        label: "Operational records",
+        caption: "Persist the work",
+        explanation:
+          "PostgreSQL and SQLAlchemy hold users, roles, assets, vulnerabilities, alerts, incidents, sessions, and related state.",
+      },
+      {
+        id: "5",
+        label: "Audit history",
+        caption: "Keep changes reviewable",
+        explanation:
+          "Authentication events and core mutations enter the audit history so actions can be reviewed.",
+      },
+    ],
+  },
 };

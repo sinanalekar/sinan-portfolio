@@ -14,9 +14,9 @@ export default function Library() {
           and the work between.
         </h1>
         <p>
-          Explore CYR@, SEEK, VERITAS, HYDRA, and CYRA. Public code sits
-          alongside carefully scoped summaries of private research, with notes
-          on the methods behind it.
+          Research systems, experimental methods, and work in progress. Public
+          code sits alongside carefully scoped private-project overviews and
+          notes on the methods behind the work.
         </p>
         <div className="actions">
           <a className="text-link" href="#library-catalog">

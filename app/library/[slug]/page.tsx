@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { entries, relatedNotes } from "../../data";
 import ProjectSystemMap from "../../project-system-map";
 import { projectSystems } from "../../project-systems";
+import ProjectStatus from "../../project-status";
 
 type Props = { params: Promise<{ slug: string }> };
 export const dynamicParams = false;
@@ -32,9 +33,7 @@ export default async function LibraryEntry({ params }: Props) {
         </p>
         <span className="access-badge article-access">{entry.visibility}</span>
         <h1>{entry.title}</h1>
-        {entry.status === "Legacy" && (
-          <span className="legacy-badge article-legacy">Legacy project</span>
-        )}
+        <ProjectStatus status={entry.status} detail />
         <p>{entry.summary}</p>
       </div>
       {entry.stack && (
@@ -46,7 +45,9 @@ export default async function LibraryEntry({ params }: Props) {
       )}
       {entry.rankReason && (
         <p className="rank-context">
-          <span className="micro">READING ORDER / 0{entry.rank}</span>
+          <span className="micro">
+            READING ORDER / {String(entry.rank).padStart(2, "0")}
+          </span>
           {entry.rankReason}
         </p>
       )}

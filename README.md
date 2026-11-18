@@ -17,6 +17,6 @@ The repository also supports the worker deployment described in [docs/deployment
 
 ## Browser verification
 
-Run `npm run build` followed by `npm run test:e2e`. The suite starts a production server on port 3001. It uses system Chromium when available; otherwise run `npx playwright install chromium` first, or set `CHROMIUM_PATH`. To test a preview, use `BASE_URL=https://your-preview.vercel.app npm run test:e2e`.
+Run `npm run build` followed by `npm run test:e2e`. The suite starts a production server on port 3001. It uses system Chromium when available; otherwise run `npx playwright install chromium` first, or set `CHROMIUM_PATH`. The résumé print check also needs Poppler's `pdfinfo` and `pdftotext` (`poppler-utils` on Debian/Ubuntu). To test a preview, use `BASE_URL=https://your-preview.vercel.app npm run test:e2e`.
 
 See [the redesign review](docs/review/README.md) for design decisions, public content sources, interaction behavior, and desktop/mobile captures.

@@ -3129,7 +3129,7 @@ html[data-theme="light"] .hero-orb {
   font-weight: 600;
   letter-spacing: -0.02em;
 }
-.explorer-picker button > span:last-child {
+.explorer-picker button > .explorer-focus {
   font-size: 9px;
   color: var(--muted);
   line-height: 1.5;
@@ -3140,7 +3140,7 @@ html[data-theme="light"] .hero-orb {
   color: var(--accent-ink);
 }
 .explorer-picker button[aria-pressed="true"] .micro,
-.explorer-picker button[aria-pressed="true"] > span:last-child {
+.explorer-picker button[aria-pressed="true"] > .explorer-focus {
   color: var(--accent-ink);
 }
 .explorer-picker button:hover {
@@ -3310,7 +3310,7 @@ html[data-theme="light"] .hero-orb {
   .explorer-picker button > strong {
     font-size: 16px;
   }
-  .explorer-picker button > span:last-child {
+  .explorer-picker button > .explorer-focus {
     font-size: 8px;
   }
   .explorer-panel {
@@ -3372,7 +3372,7 @@ html[data-theme="light"] .hero-orb {
   .explorer-picker button > strong {
     font-size: 20px;
   }
-  .explorer-picker button > span:last-child {
+  .explorer-picker button > .explorer-focus {
     font-size: 9px;
   }
   .explorer-picker button:hover {
